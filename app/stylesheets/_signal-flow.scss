@@ -283,9 +283,15 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
-	width: max-content;
-	max-width: 100%;
+	width: 100%;
+	box-sizing: border-box;
 	padding: 12px 16px;
+	/* Spans the view so Optimize layout can sit at the right; only the buttons take clicks */
+	pointer-events: none;
+}
+
+.signal-flow__filters > * {
+	pointer-events: auto;
 }
 
 .flow-filter {
@@ -834,4 +840,18 @@
 		background: #1b1a1d;
 		border-color: rgba(255, 255, 255, 0.2);
 	}
+}
+
+/* Optimize layout (and its Undo) at the right of the toolbar */
+.flow-tool--optimize {
+	margin-left: auto;
+}
+
+/* Special cables menu: the cable's signal color */
+.flow-add__swatch {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	background: var(--flow-color);
 }

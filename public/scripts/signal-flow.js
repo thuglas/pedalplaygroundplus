@@ -68,6 +68,15 @@ window.SignalFlow = (function ($) {
 		series: { name: "Voltage doubler", detail: "Series, 2 outputs" },
 	};
 
+	// Junctions added on their own from the toolbar, before anything is plugged in. They
+	// stay until removed, even with no cables.
+	var SPECIAL_CABLES = [
+		{ mode: "parallel", type: "power", name: "Current doubler" },
+		{ mode: "series", type: "power", name: "Voltage doubler" },
+		{ mode: "split", type: "audio", name: "Stereo splitter", menu: "Stereo splitter (TRS to two TS)" },
+		{ mode: "merge", type: "audio", name: "Stereo joiner", menu: "Stereo joiner (two TS to one TRS)" },
+	];
+
 	// Endpoints: gear off the pedalboard where the signal starts or ends, added from the
 	// Signal Flow toolbar. Ports are [id, label, type, direction, connector].
 	var INTERFACE_CONNECTORS = ["XLR/TRS combo", "XLR", "TRS", "TS", "3.5mm TRS"];
@@ -125,7 +134,8 @@ window.SignalFlow = (function ($) {
 
 	// nodes: { [itemId]: { x, y, sharedMidiCtrl, powerSupply, voltage, current, connectors, outputs } }
 	// connections: [{ from: { node, port }, to: { node, port }, type }] (from = output, to = input)
-	// junctions: [{ id, type, mode }] Y cables, drawn as their own small boxes
+	// junctions: [{ id, type, mode, name?, special? }] Y cables, drawn as their own small
+	// boxes; special ones were added from the toolbar (SPECIAL_CABLES)
 	// endpoints: [{ id, type, name?, inputs?, outputs? }] guitars, amps, interfaces (keys of
 	// ENDPOINTS); an interface lists its channels as { label, connector }
 	// hidden: signal type ids switched off with the filter buttons
@@ -408,7 +418,7 @@ window.SignalFlow = (function ($) {
 		state.junctions.forEach(function (junction) {
 			devices.push({
 				id: junction.id,
-				name: JUNCTIONS[junction.mode].name,
+				name: junction.name || JUNCTIONS[junction.mode].name,
 				kind: "junction",
 				junction: junction,
 				ports: junctionPorts(junction),
@@ -493,10 +503,11 @@ window.SignalFlow = (function ($) {
 			if (!c.id) c.id = newId("cable");
 			return true;
 		});
-		// A Y cable with nothing plugged into it (its pedals were removed) goes too
+		// A Y cable with nothing plugged into it (its pedals were removed) goes too, unless
+		// it was added on its own as a special cable
 		var junctionCount = state.junctions.length;
 		state.junctions = state.junctions.filter(function (junction) {
-			var used = state.connections.some(function (c) {
+			var used = junction.special || state.connections.some(function (c) {
 				return c.from.node === junction.id || c.to.node === junction.id;
 			});
 			if (!used) delete state.nodes[junction.id];
@@ -788,6 +799,7 @@ window.SignalFlow = (function ($) {
 		renderFilters();
 		$(".signal-flow__empty").toggle(devices.length === 0);
 		resizeSurface();
+		fitToolbar();
 		drawWires();
 		placeOptions();
 		save();
@@ -1060,22 +1072,34 @@ window.SignalFlow = (function ($) {
 				.appendTo($filters);
 		});
 
-		// Menu for adding guitars, amps and interfaces
-		var $menu = $('<ul class="dropdown-menu flow-add__menu">');
-		Object.keys(ENDPOINTS).forEach(function (type) {
-			$("<li>")
-				.append($('<a href="#" class="flow-add__item">').attr("data-endpoint", type).append(endpointIcon(type), $("<span>").text(ENDPOINTS[type].name)))
-				.appendTo($menu);
-		});
-		$('<div class="dropdown flow-add">')
-			.append(
-				$('<button type="button" class="flow-add__btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">').append(
-					'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
-					"<span>Add endpoint</span>"
-				),
-				$menu
-			)
-			.appendTo($filters);
+		// Menus for adding guitars, amps and interfaces, and special cables
+		function addMenu(label, $items) {
+			$('<div class="dropdown flow-add">')
+				.append(
+					$('<button type="button" class="flow-add__btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">').append(
+						'<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+						$("<span>").text(label)
+					),
+					$('<ul class="dropdown-menu flow-add__menu">').append($items)
+				)
+				.appendTo($filters);
+		}
+		addMenu(
+			"Add endpoint",
+			Object.keys(ENDPOINTS).map(function (type) {
+				return $("<li>").append($('<a href="#" class="flow-add__item">').attr("data-endpoint", type).append(endpointIcon(type), $("<span>").text(ENDPOINTS[type].name)));
+			})
+		);
+		addMenu(
+			"Add special cable",
+			SPECIAL_CABLES.map(function (cable, index) {
+				return $("<li>").append(
+					$('<a href="#" class="flow-add__item flow-add__item--cable">')
+						.attr("data-cable", index)
+						.append($('<span class="flow-add__swatch">').addClass("flow-type--" + cable.type), $("<span>").text(cable.menu || cable.name))
+				);
+			})
+		);
 
 		$('<button type="button" class="flow-tool flow-tool--optimize" title="Arrange the boxes in signal order with as few crossing cables as possible">')
 			.append('<span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>', "<span>Optimize layout</span>")
@@ -1301,6 +1325,19 @@ window.SignalFlow = (function ($) {
 		return id;
 	}
 
+	// A special cable (SPECIAL_CABLES) with nothing plugged in yet
+	function addSpecialCable(index) {
+		var cable = SPECIAL_CABLES[index];
+		var id = newId("junction");
+		state.junctions.push({ id: id, type: cable.type, mode: cable.mode, name: cable.name, special: true });
+		// Its signal type is shown, or the new box would be hidden
+		state.hidden = state.hidden.filter(function (type) {
+			return type !== cable.type;
+		});
+		render();
+		return id;
+	}
+
 	// Keep an open options menu inside the visible workspace: slide it sideways, open
 	// it above its box when there's no room below, or shrink it to the space there is
 	var MENU_MARGIN = 8;
@@ -1348,6 +1385,15 @@ window.SignalFlow = (function ($) {
 			height = Math.max(height, pos.top + $(this).outerHeight());
 		});
 		$surface.css({ width: width + 200, height: height + 200 });
+	}
+
+	// The page is at least 1400px wide, so in a narrower window the editor runs off the
+	// right edge. The toolbar stops at the window's edge so Optimize layout stays in view.
+	function fitToolbar() {
+		var $flow = $(".signal-flow");
+		if (!$flow.is(":visible")) return;
+		var visible = document.documentElement.clientWidth - $flow[0].getBoundingClientRect().left;
+		$(".signal-flow__filters").css("max-width", Math.max(0, Math.floor(visible)));
 	}
 
 	function portElement(node, port) {
@@ -1872,7 +1918,9 @@ window.SignalFlow = (function ($) {
 
 	$(document).on("click", ".signal-flow .flow-add__item", function (e) {
 		e.preventDefault();
-		addEndpoint($(this).data("endpoint"));
+		var cable = $(this).data("cable");
+		if (cable !== undefined) addSpecialCable(cable);
+		else addEndpoint($(this).data("endpoint"));
 	});
 
 	$(document).on("click", ".signal-flow .flow-node__remove", function () {
@@ -1888,6 +1936,7 @@ window.SignalFlow = (function ($) {
 		if (!isVisible()) return;
 		drawWires();
 		placeOptions();
+		fitToolbar();
 	});
 
 	$(".signal-flow").on("scroll", placeOptions);
@@ -1897,6 +1946,8 @@ window.SignalFlow = (function ($) {
 		junctions: JUNCTIONS,
 		endpoints: ENDPOINTS,
 		addEndpoint: addEndpoint,
+		addSpecialCable: addSpecialCable,
+		specialCables: SPECIAL_CABLES,
 		optimizeLayout: optimizeLayout,
 		// Every cable in the current signal flow (including hidden types), each with the
 		// segments whose length can be entered. Plain cables have from/to ends; a Y cable
@@ -2004,7 +2055,7 @@ window.SignalFlow = (function ($) {
 				var device = byId[junction.id];
 				cables.push({
 					type: typeInfo(junction.type),
-					junction: JUNCTIONS[junction.mode],
+					junction: { name: device.name, detail: JUNCTIONS[junction.mode].detail },
 					segments: [segment(junction.id, "")],
 					plugs: allPorts(device.ports).map(function (port) {
 						var c = state.connections.filter(function (c) {

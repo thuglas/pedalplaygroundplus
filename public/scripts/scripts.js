@@ -1496,11 +1496,11 @@ var GenRandom = {
 	Stored: [],
 	Job: function () {
 		var newId = Date.now().toString().substr(3); // or use any method that you want to achieve this string
-		if (!this.Check(newId)) {
-			this.Stored.push(newId);
-			return newId;
-		}
-		return this.Job();
+		// Two items added in the same millisecond: count up instead of retrying until the
+		// clock moves on (which recursed until the stack overflowed)
+		while (this.Check(newId)) newId = String(Number(newId) + 1);
+		this.Stored.push(newId);
+		return newId;
 	},
 	Check: function (id) {
 		for (var i = 0; i < this.Stored.length; i++) {

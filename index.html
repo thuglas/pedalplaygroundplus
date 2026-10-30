@@ -9,7 +9,7 @@
 			content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
 		/>
 		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="public/stylesheets/styles.css?v=31" />
+		<link rel="stylesheet" href="public/stylesheets/styles.css?v=32" />
 
 		<!-- HTML in your document's head -->
 		<link rel="preconnect" href="https://rsms.me/">
@@ -50,7 +50,10 @@
 		<meta name="twitter:description" content="PedalPlayground.com is an interactive planning tool for planning your guitar effects pedalboard.">
 		<meta name="twitter:image" content="https://pedalplayground.com/public/images/social.jpg">
 		
-		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8665257118994115" crossorigin="anonymous"></script>
+		<!-- Shared with friends only: keep search engines from listing it -->
+		<meta name="robots" content="noindex, nofollow">
+		<!-- Google Analytics and AdSense are removed; the scripts still call ga(), so it does nothing -->
+		<script>window.ga = function () {};</script>
 	</head>
 
 	<body>
@@ -347,19 +350,6 @@
 					<!-- sidebar__scroll -->
 				</div>
 
-				<!-- <div class="sense">
-					<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8665257118994115"
-						crossorigin="anonymous"></script>
-					<ins class="adsbygoogle"
-						style="display:block"
-						data-ad-client="ca-pub-8665257118994115"
-						data-ad-slot="3536246057"
-						data-ad-format="auto"
-						data-full-width-responsive="true"></ins>
-					<script>
-						(adsbygoogle = window.adsbygoogle || []).push({});
-					</script>
-				</div> -->
 
 
 				<div class="author">
@@ -654,32 +644,10 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha512-oBTprMeNEKCnqfuqKd6sbvFzmFQtlXS3e0C/RGFV0hD6QzhHV+ODfaQbAlmY6/q0ubbwlAM/nCJjkrgA3waLzg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.2/js/bootstrap-colorpicker.min.js" integrity="sha512-Inb8rvDBBswSGp+fMJmR7y+HgWACE/2m1pj2h1ItXBGt7NbI0llkYIqp7bgzibqom5rSqTt84Cqug9UQV1+e8w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js" integrity="sha512-Y1UCb35/WpQMj8SlTwW43Q+vaROlBiuJ3BBpdF646G4WjXYp417N7OzlmOVWTxOTaiFIZt1CWnby8G9J6u2EoQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<script type="text/javascript" src="public/scripts/scripts.js?v=31"></script>
-		<script type="text/javascript" src="public/scripts/signal-flow.js?v=31"></script>
-		<script type="text/javascript" src="public/scripts/parts-list.js?v=31"></script>
-		<script type="text/javascript" src="public/scripts/reverb-import.js?v=31"></script>
+		<script type="text/javascript" src="public/scripts/scripts.js?v=32"></script>
+		<script type="text/javascript" src="public/scripts/signal-flow.js?v=32"></script>
+		<script type="text/javascript" src="public/scripts/parts-list.js?v=32"></script>
+		<script type="text/javascript" src="public/scripts/reverb-import.js?v=32"></script>
 		
-		<script>
-			(
-				function (i, s, o, g, r, a, m) {
-					i["GoogleAnalyticsObject"] = r;
-					(
-						i[r] =
-						i[r] ||
-						function () {
-							(i[r].q = i[r].q || []).push(arguments);
-						}
-					),
-
-					(i[r].l = 1 * new Date());
-					(a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-					a.async = 1;
-					a.src = g;
-					m.parentNode.insertBefore(a, m);
-				}
-			)(window, document, "script", "https://www.google-analytics.com/analytics.js", "ga");
-			ga("create", "UA-92858206-1", "auto");
-			ga("send", "pageview");
-		</script>
 	</body>
 </html>

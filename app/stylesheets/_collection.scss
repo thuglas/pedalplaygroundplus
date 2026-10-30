@@ -1,0 +1,179 @@
+/* My Collection */
+#my-collection #filter-collection {
+	margin-bottom: 8px;
+}
+
+.collection-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow-y: auto;
+}
+
+.collection-item {
+	display: flex;
+	align-items: center;
+	border-radius: 4px;
+}
+
+.collection-item:hover {
+	background: rgba(128, 128, 128, 0.12);
+}
+
+.collection-item__add,
+.collection-item__missing {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	padding: 4px 6px;
+	color: inherit;
+	font-size: 13px;
+}
+
+.collection-item__add:hover,
+.collection-item__add:focus {
+	color: inherit;
+	text-decoration: none;
+}
+
+.collection-item__add img {
+	width: 24px;
+	height: 24px;
+	object-fit: contain;
+	flex-shrink: 0;
+}
+
+.collection-item__add span,
+.collection-item__missing {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.collection-item__missing {
+	opacity: 0.5;
+	text-decoration: line-through;
+}
+
+.collection-item__remove {
+	border: 0;
+	background: none;
+	color: inherit;
+	opacity: 0.4;
+	font-size: 18px;
+	line-height: 1;
+	padding: 2px 8px;
+}
+
+.collection-item__remove:hover,
+.collection-item__remove:focus {
+	opacity: 1;
+	color: #cb2532;
+}
+
+.collection-empty,
+.collection-note {
+	font-size: 12px;
+	opacity: 0.6;
+	margin: 4px 0 0;
+}
+
+.collection-note {
+	display: none;
+}
+
+/* Shown when pedal data cannot load (e.g. page opened as a file) */
+.data-load-error {
+	margin: 2rem 2rem 0;
+	padding: 10px 12px;
+	border-radius: 6px;
+	font-size: 13px;
+	line-height: 1.4;
+	color: #8a1c25;
+	background: #fdecee;
+	border: 1px solid rgba(203, 37, 50, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+	.data-load-error {
+		color: #f5b5bb;
+		background: rgba(203, 37, 50, 0.15);
+	}
+}
+
+/* My Collection header and edit mode */
+.collection-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-bottom: 10px;
+}
+
+.collection-header .h4 {
+	margin: 0;
+	white-space: nowrap;
+}
+
+.collection-header .btn {
+	flex-shrink: 0;
+}
+
+/* Remove buttons and the add/import tools only show while editing */
+.collection-item__remove,
+.collection-edit-tools {
+	display: none;
+}
+
+#my-collection.is-editing .collection-item__remove,
+#my-collection.is-editing .collection-edit-tools {
+	display: block;
+}
+
+.collection-edit-tools {
+	margin-top: 12px;
+	padding-top: 12px;
+	border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+	.collection-edit-tools {
+		border-top-color: rgba(255, 255, 255, 0.1);
+	}
+}
+
+/* On desktop the sidebar is the height of the window and the collection list fills
+   whatever space the tab has left; on the mobile slide-up panel it stays capped. */
+@media (max-width: 1023px) {
+	.collection-list {
+		max-height: 320px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.sidebar {
+		position: sticky;
+		top: 0;
+		height: calc(100vh - 5.5rem);
+	}
+	.sidebar__inner,
+	.sidebar__scroll,
+	.sidebar-tabs,
+	.sidebar-tabs > .tab-content,
+	.sidebar-tabs > .tab-content > .tab-pane.active,
+	#my-collection {
+		display: flex;
+		flex-direction: column;
+		flex: 1 1 auto;
+		min-height: 0;
+	}
+	.sidebar__scroll {
+		overflow-y: auto;
+	}
+	.collection-list {
+		flex: 1 1 auto;
+		min-height: 80px;
+	}
+}

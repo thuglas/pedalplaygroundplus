@@ -1,0 +1,255 @@
+/* Sidebar tabs (Board / Pedal / Custom / My Collection), styled like the custom item tabs */
+.sidebar-tabs > .nav-tabs {
+	display: flex;
+	margin: 0 0 1.6rem;
+	border: none;
+	background: #F6F8FA;
+	padding: 2px;
+	border-radius: 5px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) inset;
+}
+
+.sidebar-tabs > .nav-tabs:before,
+.sidebar-tabs > .nav-tabs:after {
+	display: none;
+}
+
+.sidebar-tabs > .nav-tabs > li {
+	float: none;
+	flex: 1 1 auto;
+	background: none !important;
+	margin: 0 !important;
+}
+
+.sidebar-tabs > .nav-tabs > li > a {
+	text-align: center;
+	padding: 4px 5px;
+	font-size: 12.5px;
+	font-weight: 500;
+	white-space: nowrap;
+	border-radius: 4px;
+	color: #333;
+	background: none;
+	border: 1px solid transparent;
+	margin: 0;
+}
+
+.sidebar-tabs > .nav-tabs > li.active > a,
+.sidebar-tabs > .nav-tabs > li.active > a:hover,
+.sidebar-tabs > .nav-tabs > li.active > a:focus {
+	background: linear-gradient(white, #f9f9f9);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05), 0 2px 3px rgba(92, 98, 252, 0.08);
+	background-clip: padding-box;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-top-color: rgba(0, 0, 0, 0.05);
+	border-bottom-color: rgba(0, 0, 0, 0.12);
+	color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+	.sidebar-tabs > .nav-tabs {
+		background: rgba(0, 0, 0, 0.2);
+		box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+	}
+	.sidebar-tabs > .nav-tabs > li > a {
+		color: #ddd;
+		text-shadow: 0 1px 0 black;
+	}
+	.sidebar-tabs > .nav-tabs > li.active > a,
+	.sidebar-tabs > .nav-tabs > li.active > a:hover,
+	.sidebar-tabs > .nav-tabs > li.active > a:focus {
+		background: #27262a;
+		color: white;
+		border: 1px solid rgba(255, 255, 255, 0);
+		border-top-color: rgba(255, 255, 255, 0.025);
+	}
+}
+
+.sidebar-tabs #custom-items h2 {
+	margin-top: 0;
+}
+
+.btn-collect.is-flashed {
+	color: #2e8540;
+	border-color: rgba(46, 133, 64, 0.5);
+}
+
+/* Collection entries for boards and custom items */
+.collection-item__text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.collection-item__text small {
+	font-size: 11px;
+	opacity: 0.6;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.collection-item__swatch {
+	width: 24px;
+	height: 24px;
+	flex-shrink: 0;
+	border-radius: 4px;
+	background: #888;
+}
+
+.collection-item__swatch--custom-board {
+	background: none;
+	border: 3px solid #616d80;
+}
+
+.collection-item__missing.is-pending {
+	text-decoration: none;
+}
+
+/* Parts List view */
+.parts-list {
+	flex: 1 1 auto;
+	position: relative;
+	z-index: 1;
+	height: calc(100vh - 5.5rem);
+	overflow: auto;
+	padding: 24px 32px;
+	background-color: #F6F8FA;
+	margin-left: -1px;
+	border-left: 1px solid #F6F8FA;
+}
+
+.parts-list__toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 14px;
+}
+
+.parts-list__title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.parts-list__sheet {
+	background: white;
+	border: 1px solid #d5dae1;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.parts-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+	font-variant-numeric: tabular-nums;
+}
+
+.parts-table th,
+.parts-table td {
+	padding: 6px 10px;
+	border-right: 1px solid #e3e7ec;
+	border-bottom: 1px solid #e3e7ec;
+	text-align: left;
+	vertical-align: top;
+}
+
+.parts-table th:last-child,
+.parts-table td:last-child {
+	border-right: 0;
+}
+
+.parts-table thead th {
+	position: sticky;
+	top: 0;
+	background: #eef1f5;
+	font-weight: 600;
+	border-bottom-color: #d5dae1;
+}
+
+.parts-table .parts-table__num {
+	width: 40px;
+	text-align: center;
+	background: #eef1f5;
+	color: #8a93a2;
+	font-size: 12px;
+}
+
+.parts-table .is-numeric {
+	text-align: right;
+}
+
+.parts-table tbody tr:hover td:not(.parts-table__num) {
+	background: rgba(133, 118, 247, 0.06);
+}
+
+.parts-table tfoot td {
+	font-weight: 600;
+	background: #f6f8fa;
+	border-bottom: 0;
+}
+
+.parts-list__empty {
+	margin-top: 40px;
+	text-align: center;
+	opacity: 0.6;
+}
+
+@media (prefers-color-scheme: dark) {
+	.parts-list {
+		background-color: #27262a;
+		border-left-color: #27262a;
+	}
+	.parts-list__sheet {
+		background: #232226;
+		border-color: rgba(255, 255, 255, 0.12);
+	}
+	.parts-table th,
+	.parts-table td {
+		border-color: rgba(255, 255, 255, 0.08);
+	}
+	.parts-table thead th,
+	.parts-table .parts-table__num,
+	.parts-table tfoot td {
+		background: #2d2c31;
+		color: #ccc;
+	}
+	.parts-table .parts-table__num {
+		color: #888;
+	}
+}
+
+/* Cable ends: a Y cable lists one plug per line */
+.parts-table .parts-table__side {
+	white-space: pre-line;
+}
+
+/* Editable cable lengths: one box, or one per daisy-chain segment */
+.parts-table .parts-table__length {
+	min-width: 110px;
+}
+
+.parts-length {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	margin: 0 0 3px;
+	font-weight: 500;
+}
+
+.parts-length:last-child {
+	margin-bottom: 0;
+}
+
+.parts-length__label {
+	width: 12px;
+	font-size: 11px;
+	opacity: 0.6;
+}
+
+.parts-length__input.form-control {
+	height: 24px;
+	padding: 2px 6px;
+	font-size: 12px;
+}

@@ -1,0 +1,1132 @@
+{
+	"$schema": "./my-devices.schema.json",
+	"about": "Port specifications for the devices in My Collection. Signal Flow uses a device's ports from here instead of the generic set. Ports, connectors and power were researched from manufacturer pages, manuals and retailer spec sheets (see each device's notes and sources); \"verified\" stays false until you've checked a device against the real unit.",
+	"devices": [
+		{
+			"key": "boss-ev30.png",
+			"brand": "BOSS",
+			"name": "EV-30 Dual Expression Pedal",
+			"subcategory": "Expression/Volume",
+			"verified": false,
+			"notes": "Passive dual expression pedal, no power needed. Outputs are isolated; polarity switch and range per output.",
+			"sources": ["https://in.boss.info/products/ev-30"],
+			"ports": [
+				{"id": "exp1", "label": "EXP 1 Out", "type": "ctrl", "direction": "out", "connector": "TRS"},
+				{"id": "exp2", "label": "EXP 2 Out", "type": "ctrl", "direction": "out", "connector": "TRS"}
+			]
+		},
+		{
+			"key": "boss-ns1x.png",
+			"brand": "BOSS",
+			"name": "NS-1X Noise Suppressor",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Send/Return loop puts noisy pedals inside the suppressor. Has a DC OUT jack for chaining power (needs a BOSS PSA adapter and PCS-20A cable), not modeled.",
+			"sources": ["https://fullcompass.com/prod/625314-boss-ns-1x-noise-suppressor-effect-pedal-next-generation-noise-suppressor-and-gate-for-guitar-bass-and-other-electronic-musical-instruments"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "return", "label": "Return", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Output", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "send", "label": "Send", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 60}
+			]
+		},
+		{
+			"key": "browneamps-protein-green.png",
+			"brand": "Browne Amplification",
+			"name": "Protein V3 (Green)",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Draw listed as under 30 mA by Browne and most retailers (one retailer says under 100 mA). Top-mounted jacks.",
+			"sources": ["https://browneamps.squarespace.com/theprotein", "https://spicersmusic.com/products/protein-v3-green"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 30}
+			]
+		},
+		{
+			"key": "browne-t4.png",
+			"brand": "Browne Amplification",
+			"name": "T4",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Fuzz. Spec is 'less than 100 mA' (a retailer table says 10 mA); 100 mA used to be safe. No battery.",
+			"sources": ["https://electricmojoguitars.com/products/browne-t4", "https://www.premierguitar.com/browne-amplification-introduces-the-t4-fuzz-pedal"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100}
+			]
+		},
+		{
+			"key": "chasebliss-big-time.png",
+			"brand": "Chase Bliss",
+			"name": "Big Time",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Stereo, balanced or unbalanced I/O (TRS jacks assumed), full-size MIDI DIN in (clock, PC, CC), EXP/CV and AUX switch inputs. ~1 A. Exact jack labels not confirmed; check the manual.",
+			"sources": ["https://www.chasebliss.com/big-time", "https://tapeop.com/reviews/gear/175/big-time-analog-digital-echo"],
+			"ports": [
+				{"id": "inL", "label": "In L", "type": "audio", "direction": "in", "connector": "TRS"},
+				{"id": "inR", "label": "In R", "type": "audio", "direction": "in", "connector": "TRS"},
+				{"id": "outL", "label": "Out L", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "outR", "label": "Out R", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "aux", "label": "AUX", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 1000}
+			]
+		},
+		{
+			"key": "chasebliss-blooper.png",
+			"brand": "Chase Bliss",
+			"name": "Blooper",
+			"subcategory": "Looper",
+			"verified": false,
+			"notes": "Mono I/O, ~150 mA. EXP/CV jack for expression or CV clock; TAP/MIDI TRS jack takes a MIDIbox (Ring Active) or tap switch.",
+			"sources": ["https://blooper.chasebliss.com/midi/docs/midi-manual.pdf", "https://centaurguitar.com/collections/types/products/chase-bliss-blooper"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midi", "label": "MIDI", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 150}
+			]
+		},
+		{
+			"key": "chasebliss-brothers-am.png",
+			"brand": "Chase Bliss",
+			"name": "Brothers AM",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Mono, true bypass, ~200 mA. Jack layout assumed from Chase Bliss's two-footswitch format (EXP/CV and MIDI TRS jacks).",
+			"sources": ["https://www.chasebliss.com/brothers-am"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midi", "label": "MIDI", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 200}
+			]
+		},
+		{
+			"key": "chasebliss-clean.png",
+			"brand": "Chase Bliss",
+			"name": "Clean",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Manual: 9V ~300 mA. Mono or stereo I/O on TRS jacks; separate sidechain input on the side.",
+			"sources": ["https://www.chasebliss.com/clean"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TRS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midi", "label": "MIDI/EXT", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "sidechain", "label": "Sidechain", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 300}
+			]
+		},
+		{
+			"key": "chasebliss-dark-world.png",
+			"brand": "Chase Bliss",
+			"name": "Dark World",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Mono in/out, ~200 mA. MIDI jack is TRS (also controls the left footswitch via the tip).",
+			"sources": ["https://www.chasebliss.com/dark-world"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midi", "label": "MIDI", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 200}
+			]
+		},
+		{
+			"key": "chasebliss-mood.png",
+			"brand": "Chase Bliss",
+			"name": "MOOD",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Original (MKI) MOOD: mono. ~150 mA per a compiled current-draw table (a resale listing says ~200 mA); use a 200 mA+ output. Not an official figure.",
+			"sources": ["https://stinkfoot.se/?p=4065", "https://therockinn.com/products/chase-bliss-audio-mood-micro-looper-delay-pedal-pre-owned-1"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midi", "label": "MIDI", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 150}
+			]
+		},
+		{
+			"key": "chasebliss-mood-mk2-lb.png",
+			"brand": "Chase Bliss",
+			"name": "MOOD MKII (Light Bright)",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Manual: 9V at least 270 mA. In/Out are TRS for stereo, TS for mono. MIDI needs a Chase Bliss MIDIbox; the MIDI/EXT jack also takes a momentary footswitch. CV range 0-5V.",
+			"sources": ["https://www.chasebliss.com/mood-mkii"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TRS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midi", "label": "MIDI/EXT", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 270}
+			]
+		},
+		{
+			"key": "chasebliss-reverse-mood-c.png",
+			"brand": "Chase Bliss",
+			"name": "Reverse Mode C",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Stereo I/O including mono splitting, ~270 mA. Same jack format as MOOD MKII (assumed).",
+			"sources": ["https://www.chasebliss.com/reverse-mode-c"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TRS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midi", "label": "MIDI/EXT", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 270}
+			]
+		},
+		{
+			"key": "chasebliss-thermae.png",
+			"brand": "Chase Bliss",
+			"name": "Thermae",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Manual: consumes ~180 mA, use a supply of 200 mA or more (a 100 mA outlet won't work). EXP/CV: tip to wiper, or 0-5V CV on tip.",
+			"sources": ["https://www.chasebliss.com/thermae"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midi", "label": "MIDI", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 180}
+			]
+		},
+		{
+			"key": "chasebliss-warped-vinyl-hifi.png",
+			"brand": "Chase Bliss",
+			"name": "Warped Vinyl HiFi",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Mono, ~100 mA. MIDI (PC, CC, clock) via MIDIbox on the TRS MIDI jack; external tap supported.",
+			"sources": ["https://www.chasebliss.com/warped-vinyl-hifi"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midi", "label": "MIDI", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100}
+			]
+		},
+		{
+			"key": "donner-circle-looper.png",
+			"brand": "Donner",
+			"name": "Circle Looper",
+			"subcategory": "Looper",
+			"verified": false,
+			"notes": "Draws 300 mA; Donner says use a 9V center-negative adapter of 500 mA or more. Ext Ctrl is a TRS jack for a dual footswitch. Micro USB for importing/exporting loops.",
+			"sources": ["https://us.donnermusic.com/products/donner-circle-looper-guitar-pedal-member-only"],
+			"ports": [
+				{"id": "inL", "label": "In L", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "inR", "label": "In R", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "outL", "label": "Out L", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outR", "label": "Out R", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "ext", "label": "Ext Ctrl", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "Micro USB"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 300}
+			]
+		},
+		{
+			"key": "ehx-pog2.png",
+			"brand": "Electro-Harmonix",
+			"name": "POG2",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "160-180 mA (sources vary; 180 used). EHX supplies a 9.6V 200 mA adapter; runs on 9-9.6V DC center negative, no battery. Separate Dry Out.",
+			"sources": ["https://www.greentoe.com/product/ELECTRO-HARMONIX_POG2", "https://www.musik-produktiv.com/ie/electro-harmonix-pog2.html"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "effect", "label": "Effect Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "dry", "label": "Dry Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 180}
+			]
+		},
+		{
+			"key": "empress-buffer-plus.png",
+			"brand": "Empress",
+			"name": "Buffer+",
+			"subcategory": "Utility",
+			"verified": false,
+			"notes": "86 mA. Serial effects loop (send/return), tuner out independent of the mute (can be a second output or DI).",
+			"sources": ["https://www.zzounds.com/item--EMRBUFFERPLUS", "https://wrdtunes.com/products/empress-effects-buffer-plus"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "return", "label": "Return", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "send", "label": "Send", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "out", "label": "Amp Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "tuner", "label": "Tuner Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 86}
+			]
+		},
+		{
+			"key": "empress-compressor-mkii-blue.png",
+			"brand": "Empress",
+			"name": "Compressor MKII (Blue Sparkle)",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "100 mA at 9V (one retailer says 9-18V; check the manual before using 18V). Sidechain is a 3.5mm TRS send/return jack.",
+			"sources": ["https://modulargrid.net/p/empress-effects-empress-compressor-mkii", "https://electricmojoguitars.com/products/empress-compressor-mkii"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "sidechain", "label": "Sidechain", "type": "audio", "direction": "both", "connector": "3.5mm TRS", "side": "bottom"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100}
+			]
+		},
+		{
+			"key": "empress-heavy.png",
+			"brand": "Empress",
+			"name": "Heavy",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "200 mA at 9V DC center negative (the Heavy Menace is a different pedal at 250 mA).",
+			"sources": ["https://modulargrid.net/p/empress-effects-heavy", "https://intl.ishibashi.co.jp/products/08-2800005465990"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 200}
+			]
+		},
+		{
+			"key": "empress-zoia.png",
+			"brand": "Empress",
+			"name": "Zoia",
+			"subcategory": "Multi-effect",
+			"verified": false,
+			"notes": "300 mA. Stereo pair of TS inputs (Hi-Z) and TS line outputs; one TRS control port for CV, expression or an external switch; 3.5mm TRS MIDI in/out (dongles included).",
+			"sources": ["https://www.zzounds.com/item--EMRZOIA", "https://www.bhphotovideo.com/c/product/1861646-REG/empress_effects_zoix_modular_digital_multi_fx.html"],
+			"ports": [
+				{"id": "inL", "label": "In L", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "inR", "label": "In R", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "outL", "label": "Out L", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outR", "label": "Out R", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "ctrl", "label": "Control (CV/EXP/Switch)", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "3.5mm TRS"},
+				{"id": "midiout", "label": "MIDI Out", "type": "midi", "direction": "out", "connector": "3.5mm TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 300}
+			]
+		},
+		{
+			"key": "ernie-ball-vp.png~VP",
+			"brand": "Ernie Ball",
+			"name": "VP",
+			"subcategory": "Expression/Volume",
+			"verified": false,
+			"notes": "Passive, no power. Specs found are for the VP Jr 250k (TS input, output and tuner out); confirm which VP model this is.",
+			"sources": ["https://www.palenmusic.com/products/ernie-ball-vp-jr-volume-pedal-for-passive-electronics"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Output", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "tuner", "label": "Tuner Out", "type": "audio", "direction": "out", "connector": "TS"}
+			]
+		},
+		{
+			"key": "eventide-h9.png",
+			"brand": "Eventide",
+			"name": "H9",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "500 mA at 9V, supply included. Sources disagree on barrel polarity (center positive vs negative); use the Eventide supply or check the label. Mini USB for H9 Control and MIDI.",
+			"sources": ["https://www.perfectcircuit.com/eventide-h9-core.html", "https://www.thomann.co.uk/eventide_h9_max_red_b_stock.htm"],
+			"ports": [
+				{"id": "in1", "label": "Input 1", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "in2", "label": "Input 2", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out1", "label": "Output 1", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "out2", "label": "Output 2", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "Expression", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "midiout", "label": "MIDI Out/Thru", "type": "midi", "direction": "out", "connector": "5-pin DIN"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "Mini USB"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "5.5x2.1mm barrel (polarity: see notes)", "voltage": 9, "current": 500}
+			]
+		},
+		{
+			"key": "eventide-h9-dark.png",
+			"brand": "Eventide",
+			"name": "H9 (Dark)",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Same I/O and power as the H9. 500 mA at 9V; polarity listed inconsistently, so use the Eventide supply or check the label.",
+			"sources": ["https://www.perfectcircuit.com/eventide-h9-core.html"],
+			"ports": [
+				{"id": "in1", "label": "Input 1", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "in2", "label": "Input 2", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out1", "label": "Output 1", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "out2", "label": "Output 2", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "Expression", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "midiout", "label": "MIDI Out/Thru", "type": "midi", "direction": "out", "connector": "5-pin DIN"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "Mini USB"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "5.5x2.1mm barrel (polarity: see notes)", "voltage": 9, "current": 500}
+			]
+		},
+		{
+			"key": "eventide-h90.png",
+			"brand": "Eventide",
+			"name": "H90 Harmonizer",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Eventide spec: 12V DC 600 mA (or 9V DC 800 mA), center POSITIVE 5.5/2.5mm jack; supplied 12V 1A adapter. Four TS inputs and outputs, each instrument or line level. EXP/CTL jacks take expression pedals, 0-5V CV or aux switches.",
+			"sources": ["https://cdn.eventideaudio.com/manuals/h90/1.9.7/content/hardware/rear-side.html", "https://cdn.eventideaudio.com/manuals/h90/1.3.0/content/appendix/specifications.html"],
+			"ports": [
+				{"id": "in1", "label": "Input 1", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "in2", "label": "Input 2", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "in3", "label": "Input 3", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "in4", "label": "Input 4", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out1", "label": "Output 1", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "out2", "label": "Output 2", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "out3", "label": "Output 3", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "out4", "label": "Output 4", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp1", "label": "EXP/CTL 1", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "exp2", "label": "EXP/CTL 2", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "midiout", "label": "MIDI Out/Thru", "type": "midi", "direction": "out", "connector": "5-pin DIN"},
+				{"id": "usb", "label": "USB-C", "type": "midi", "direction": "both", "connector": "USB-C"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "5.5x2.5mm barrel, center positive", "voltage": 9, "current": 800}
+			]
+		},
+		{
+			"key": "fairfield-hors-d-oeuvre.png",
+			"brand": "Fairfield Circuitry",
+			"name": "Hors d'Oeuvre?",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "30 mA at 9V center negative, no battery. Has a CV input for modulating feedback (sequencer or expression pedal); its jack type isn't documented in the sources found.",
+			"sources": ["https://www.thomann.es/fairfield_circuitry_hors_doeuvre_act_feedb._loop.htm", "https://www.soundhouse.co.jp/en/products/detail/item/282326/"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "cv", "label": "CV/EXP", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 30}
+			]
+		},
+		{
+			"key": "fulltone-ocd.png",
+			"brand": "Fulltone",
+			"name": "OCD",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "About 8 mA (V2). Runs on 9-18V DC center negative; 18V gives more headroom. Fulltone recommends a regulated supply.",
+			"sources": ["https://www.thomann.nl/fulltone_ocd_v2.htm", "https://www.musicradar.com/how-to/the-fx-files-fulltone-ocd"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 8}
+			]
+		},
+		{
+			"key": "fulltone-plimsoul.png",
+			"brand": "Fulltone",
+			"name": "Plimsoul",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "About 12 mA (from resale listings, not Fulltone). Runs on 9-18V DC center negative.",
+			"sources": ["https://modulargrid.net/p/offers/view/1390446", "https://equipboard.com/items/fulltone-custom-shop-plimsoul-mkii"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 12}
+			]
+		},
+		{
+			"key": "gamechanger-motor-pedal.png",
+			"brand": "Gamechanger Audio",
+			"name": "Motor Pedal",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Needs 9V center negative, at least 500 mA. Track In lets the motor follow another source in the chain; Track Out passes that signal on. MIDI connector type not confirmed.",
+			"sources": ["https://www.guitarworld.com/gear/effects-pedals/gamechanger-audio-motor-pedal-review", "https://www.altomusic.com/products/gamechanger-audio-motor-pedal-electro-mechanical-synth-voice-and-harmony-pedal"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Output", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "trackin", "label": "Track In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "trackout", "label": "Track Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "midi", "label": "MIDI", "type": "midi", "direction": "in", "connector": "MIDI (type not confirmed)"},
+				{"id": "usb", "label": "USB-C", "type": "midi", "direction": "both", "connector": "USB-C"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500}
+			]
+		},
+		{
+			"key": "gamechanger-plasma.png",
+			"brand": "Gamechanger Audio",
+			"name": "Plasma",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "300 mA at 9V center negative (max; typical ~100 mA, 2.8 mA in bypass). Size the supply for 300 mA. TS in/out.",
+			"sources": ["https://www.pmtonline.co.uk/gamechanger-audio-plasma-pedal", "https://stinkfoot.se/?p=5803"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 300}
+			]
+		},
+		{
+			"key": "gamechanger-audio-recoder.png",
+			"brand": "Gamechanger Audio",
+			"name": "Recoder",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Official: 9V DC center negative, 500 mA minimum. All jacks mono. REC Out/In form a buffered loop. MIDI in over 3.5mm TRS Type B or USB-C; no MIDI out.",
+			"sources": ["https://gamechangeraudio.com/support/recoder-support/"],
+			"ports": [
+				{"id": "in", "label": "Instrument In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Main Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "recout", "label": "REC Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "recin", "label": "REC In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "3.5mm TRS (Type B)"},
+				{"id": "usb", "label": "USB-C", "type": "midi", "direction": "both", "connector": "USB-C"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500}
+			]
+		},
+		{
+			"key": "gfi-specular-tempus.png",
+			"brand": "GFI System",
+			"name": "Specular Tempus",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "~100 mA. 1/4in TS audio in/out (stereo), 1/8in effects loop (TS or TRS). Aux In for 1-3 button footswitches; Aux Out is a tempo/switch output. MIDI In covers tap and expression.",
+			"sources": ["https://www.zzounds.com/item--GFISPECULAR", "https://www.andertons.co.uk/gfi-system/gfi-system-specular-tempus-reverb-delay-pedal"],
+			"ports": [
+				{"id": "inL", "label": "In L", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "inR", "label": "In R", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "outL", "label": "Out L", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outR", "label": "Out R", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "send", "label": "FX Send", "type": "audio", "direction": "out", "connector": "3.5mm TRS"},
+				{"id": "return", "label": "FX Return", "type": "audio", "direction": "in", "connector": "3.5mm TRS"},
+				{"id": "auxin", "label": "Aux In", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "auxout", "label": "Aux Out", "type": "ctrl", "direction": "out", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "MIDI (type not confirmed)"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100}
+			]
+		},
+		{
+			"key": "greer-lightspeed.png",
+			"brand": "Greer Amps",
+			"name": "Lightspeed",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "11 mA at 9V. Runs on 9-18V DC center negative (18V: more headroom). Internal 9V battery clip.",
+			"sources": ["https://www.cottonwoodmusicemporium.com/collections/greer-amps/products/greer-amplification-lightspeed", "https://gsus4.com.au/products/greer-amps-lightspeed-blackout"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 11}
+			]
+		},
+		{
+			"key": "hologram-chroma-console.png",
+			"brand": "Hologram Electronics",
+			"name": "Chroma Console",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Stereo, instrument or line level. MIDI over DIN and USB-C. 500 mA at 9V center negative per ModularGrid (supply included); Hologram's page gives no figure. Jack split (L/R pairs, DIN in vs out) assumed.",
+			"sources": ["https://www.hologramelectronics.com/chroma-console", "https://modulargrid.net/p/modules/view/46352"],
+			"ports": [
+				{"id": "inL", "label": "In L", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "inR", "label": "In R", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "outL", "label": "Out L", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outR", "label": "Out R", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "fs", "label": "Bypass Footswitch", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "midiout", "label": "MIDI Out/Thru", "type": "midi", "direction": "out", "connector": "5-pin DIN"},
+				{"id": "usb", "label": "USB-C", "type": "midi", "direction": "both", "connector": "USB-C"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500}
+			]
+		},
+		{
+			"key": "hologram-microcosm.png",
+			"brand": "Hologram Electronics",
+			"name": "Microcosm",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Manual: 9V center negative, supply must provide at least 400 mA; avoid daisy chains and switching supplies (noise). One TRS input (stereo set in Global Config), separate L/R outputs. EXP tip 0-3V.",
+			"sources": ["https://cdn.shopify.com/s/files/1/0920/2928/8752/files/MC_manual_WEB.pdf"],
+			"ports": [
+				{"id": "in", "label": "Mono/Stereo In", "type": "audio", "direction": "in", "connector": "TRS"},
+				{"id": "outL", "label": "Out L", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outR", "label": "Out R", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "MIDI (type not confirmed)"},
+				{"id": "midiout", "label": "MIDI Out/Thru", "type": "midi", "direction": "out", "connector": "MIDI (type not confirmed)"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 400}
+			]
+		},
+		{
+			"key": "hotone-ampero-press-25ohm.png",
+			"brand": "Hotone",
+			"name": "Ampero Press (25kΩ Edition)",
+			"subcategory": "Expression/Volume",
+			"verified": false,
+			"notes": "Passive, no power. 100k volume pot on the TS in/out; independent 25k expression pot on a TRS EXP output (made for Ampero II Stomp; check the target's EXP impedance).",
+			"sources": ["https://shop.hotoneaudio.com/products/ampero-press-25k%CF%89-edition", "https://www.fullcompass.com/prod/643206-hotone-ampero-press-volume-expression-pedal-passive-with-1-4-standard-and-exp-trs-outputs"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Output", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP Out", "type": "ctrl", "direction": "out", "connector": "TRS"}
+			]
+		},
+		{
+			"key": "hotone-wong-press.png",
+			"brand": "Hotone",
+			"name": "Wong Press",
+			"subcategory": "Expression/Volume",
+			"verified": false,
+			"notes": "Max 30 mA at 9V (or 9V battery). Volume / wah / expression / volume+wah modes; separate tuner and expression (10k) outputs. Jack types not stated; TS audio and TRS expression assumed.",
+			"sources": ["https://www.zzounds.com/item--HOTWONGPRESS"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Output", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "tuner", "label": "Tuner Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP Out", "type": "ctrl", "direction": "out", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 30}
+			]
+		},
+		{
+			"key": "ikm-tonex-one.png",
+			"brand": "IK Multimedia",
+			"name": "TONEX One",
+			"subcategory": "Multi-effect",
+			"verified": false,
+			"notes": "120 mA at 9V center negative, or USB-C bus power. TRS output: stereo, dual mono or headphones. USB-C is also an audio interface. No MIDI jacks on the standard One (the One+ adds mini TRS MIDI).",
+			"sources": ["https://musicmachine.co.nz/product/ik-multimedia-tonex-one-amplifier-cab-pedal-modeler", "https://www.micheomusic.com/products/ik-multimedia-tonex-one-amplifier-cab-pedal-modeler"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TRS"},
+				{"id": "out", "label": "Output", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "usb", "label": "USB-C", "type": "midi", "direction": "both", "connector": "USB-C"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 120}
+			]
+		},
+		{
+			"key": "jhs-timmons.png~AT+",
+			"brand": "JHS",
+			"name": "AT+",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "15 mA. Runs on 9-18V DC center negative (18V for more headroom); don't exceed 18V.",
+			"sources": ["https://modulargrid.net/p/modules/view/17478", "https://www.sweelee.com.sg/products/jhs-the-at-plus-andy-timmons-signature-overdrive-guitar-effects-pedal-black"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 15}
+			]
+		},
+		{
+			"key": "jhs-bonsai.png",
+			"brand": "JHS",
+			"name": "Bonsai",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "About 20 mA (spec ceiling under 100 mA). 9V only, center negative; no battery.",
+			"sources": ["https://modulargrid.net/p/jhs-the-bonsai", "https://reverb.com/de/item/36252758-jhs-the-bonsai-9-way-screamer-overdrive-effectpedal"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 20}
+			]
+		},
+		{
+			"key": "jhs-morning-glory-v4.png",
+			"brand": "JHS",
+			"name": "Morning Glory V4",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "43 mA, 9V only (don't exceed 9V). Remote jack takes a JHS Red Remote (momentary switch) to toggle the high gain mode.",
+			"sources": ["https://spicersmusic.com/products/jhs-morning-glory-v4", "https://reverb.com/item/55803183-jhs-morning-glory-v4"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "remote", "label": "Remote Gain", "type": "ctrl", "direction": "in", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 43}
+			]
+		},
+		{
+			"key": "jhs-packrat.png",
+			"brand": "JHS",
+			"name": "PackRat",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "About 100 mA per a community current-draw table (no official figure found). JHS says 9V only unless stated otherwise.",
+			"sources": ["https://stinkfoot.se/?p=4624"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100}
+			]
+		},
+		{
+			"key": "keeley-halo.png",
+			"brand": "Keeley",
+			"name": "Halo",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "160 mA at 9V center negative. Stereo in/out on separate jacks; TRS expression and TRS remote (tap / preset) jacks.",
+			"sources": ["https://www.andertons.co.uk/keeley-halo-andy-timmons-signature-dual-echo-pedal/", "https://www.zzounds.com/item--KEEHALO"],
+			"ports": [
+				{"id": "inL", "label": "In L/Mono", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "inR", "label": "In R", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "outL", "label": "Out L/Mono", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outR", "label": "Out R", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "Expression", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "remote", "label": "Remote (tap)", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 160}
+			]
+		},
+		{
+			"key": "kingtone-blues-power.png",
+			"brand": "Kingtone",
+			"name": "Blues Power",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Most sellers list 100 mA (RockBoard lists 64 mA); 100 mA used. 9V DC center negative.",
+			"sources": ["https://electricmojoguitars.com/products/king-tone-guitar-blues-power", "https://www.rockboard.de/en/pedalPedia/KingTone/Blues-Power/8178957789/"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100}
+			]
+		},
+		{
+			"key": "kingtone-duellist.png",
+			"brand": "Kingtone",
+			"name": "The Duellist",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "V3: 10 mA, 9-18V DC; older V2 listed under 100 mA. 100 mA used until the version is confirmed.",
+			"sources": ["https://electricmojoguitars.com/products/king-tone-guitar-duellist-v3", "https://www.peachguitars.com/king-tone-guitar-the-duellist-dual-overdrive-pedal.htm"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100}
+			]
+		},
+		{
+			"key": "line6-helix.png",
+			"brand": "Line 6",
+			"name": "Helix",
+			"subcategory": "Multi-effect",
+			"verified": false,
+			"notes": "Mains powered (IEC cable, internal supply), so no pedal-supply jack is listed. Also has S/PDIF and AES/EBU digital I/O, VDI (Variax) and L6 LINK, not modeled. Jack list from retailer specs and the Line 6 forum; the manual's back-panel page is an image, so check labels against your unit.",
+			"sources": ["https://www.zzounds.com/item--LINHELIXFB", "https://www.bonedo.de/artikel/einzelansicht/line-6-helix-test.html"],
+			"ports": [
+				{"id": "guitar", "label": "Guitar In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "aux", "label": "Aux In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "mic", "label": "Mic In", "type": "audio", "direction": "in", "connector": "XLR"},
+				{"id": "ret1", "label": "Return 1", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "ret2", "label": "Return 2", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "ret3", "label": "Return 3", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "ret4", "label": "Return 4", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "send1", "label": "Send 1", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "send2", "label": "Send 2", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "send3", "label": "Send 3", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "send4", "label": "Send 4", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "xlrL", "label": "XLR Out L/Mono", "type": "audio", "direction": "out", "connector": "XLR"},
+				{"id": "xlrR", "label": "XLR Out R", "type": "audio", "direction": "out", "connector": "XLR"},
+				{"id": "outL", "label": "1/4 Out L/Mono", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outR", "label": "1/4 Out R", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "phones", "label": "Phones", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "exp2", "label": "EXP 2", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "exp3", "label": "EXP 3", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "extamp", "label": "Ext Amp 1/2", "type": "ctrl", "direction": "out", "connector": "TRS"},
+				{"id": "cv", "label": "CV Out", "type": "ctrl", "direction": "out", "connector": "TS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "midiout", "label": "MIDI Out/Thru", "type": "midi", "direction": "out", "connector": "5-pin DIN"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "USB-B"}
+			]
+		},
+		{
+			"key": "line6-hx-stomp.png",
+			"brand": "Line 6",
+			"name": "HX Stomp",
+			"subcategory": "Multi-effect",
+			"verified": false,
+			"notes": "Rear panel marked 9VDC 3A; Line 6 recommends its DC-3G supply. 3000 mA used so a pedal supply output isn't overloaded. Send is one TRS jack (mono or stereo); Return L/Mono doubles as Aux In. EXP 1/2 takes a dual expression pedal or extra footswitches. USB is an audio interface.",
+			"sources": ["https://www.fullcompass.com/common/files/59570-HXStompQuickStartGuide.pdf", "https://www.musicstore.de/en_DE/EUR/Line-6-HX-Stomp-Black-/art-GIT0047214-000"],
+			"ports": [
+				{"id": "inL", "label": "Input L/Mono", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "inR", "label": "Input R", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "outL", "label": "Output L/Mono", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outR", "label": "Output R", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "send", "label": "Send", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "retL", "label": "Return L/Mono (Aux In)", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "retR", "label": "Return R", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "exp", "label": "EXP 1/2 (FS 4/5)", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "midiout", "label": "MIDI Out/Thru", "type": "midi", "direction": "out", "connector": "5-pin DIN"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "USB (type not confirmed)"},
+				{"id": "phones", "label": "Phones", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "9V DC barrel (Line 6 DC-3G supply)", "voltage": 9, "current": 3000}
+			]
+		},
+		{
+			"key": "mxr-evh5150.png",
+			"brand": "MXR",
+			"name": "EVH 5150 Overdrive",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "12.5 mA bypassed, 14.5 mA on with gate engaged. 9V adapter or battery.",
+			"sources": ["https://www.americanmusical.com/p/mxr-evh-5150-overdrive-effects-pedal", "https://fullcompass.com/prod/627979-mxr-evh-5150-overdrive-pedal"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 15}
+			]
+		},
+		{
+			"key": "mxr-csp039.png",
+			"brand": "MXR Custom Shop",
+			"name": "Duke of Tone",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Manual: 6 mA at 9V DC; no battery. Marketing copy mentions 18V for more headroom (not in the manual).",
+			"sources": ["https://www.tubesoundbcn.com/img/manual/CSP039.pdf", "https://www.zzounds.com/item--MXRDUKE"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 6}
+			]
+		},
+		{
+			"key": "origin-revivaldrive.png",
+			"brand": "Origin Effects",
+			"name": "RevivalDRIVE",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Big-box RevivalDRIVE: 120 mA at 9V center negative, no battery (the Compact draws 100 mA). Comes with an external footswitch for channel switching; footswitch jack type assumed TRS.",
+			"sources": ["https://thomann.co.uk/origin_effects_revivaldrive_footswitch.htm"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "fs", "label": "Footswitch", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 120}
+			]
+		},
+		{
+			"key": "peterson-strobostomp-mini.png",
+			"brand": "Peterson",
+			"name": "Strobostomp Mini",
+			"subcategory": "Tuner",
+			"verified": false,
+			"notes": "85 mA nominal at 9V center negative, or 5V USB-C bus power. No power output.",
+			"sources": ["https://reverb.com/p/peterson-strobostomp-mini", "https://modulargrid.net/p/modules/view/44539"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "usb", "label": "USB-C", "type": "midi", "direction": "both", "connector": "USB-C"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 85}
+			]
+		},
+		{
+			"key": "poly-digit.png",
+			"brand": "Poly Effects",
+			"name": "Digit",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "No Digit-specific current figure found; 150 mA is the sister Beebo's spec (shared firmware), so check before relying on it. Stereo I/O (one write-up says 4 in / 4 out). MIDI in/out on TRS with 5-pin DIN adapters supplied.",
+			"sources": ["https://delicious-audio.com/?p=60895", "https://www.thomann.pl/poly_effects_beebo_modular_effects.htm"],
+			"ports": [
+				{"id": "inL", "label": "In L", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "inR", "label": "In R", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "outL", "label": "Out L", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outR", "label": "Out R", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "TRS"},
+				{"id": "midiout", "label": "MIDI Out", "type": "midi", "direction": "out", "connector": "TRS"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "USB (type not confirmed)"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 150}
+			]
+		},
+		{
+			"key": "redpanda-bitmap2.png",
+			"brand": "Red Panda",
+			"name": "Bitmap 2",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Stereo TRS in/out. CTRL jack takes an expression pedal, remote switch, remote tap or MIDI. No current figure found; 250 mA assumed from the Raster 2 (same platform).",
+			"sources": ["https://apacheaudioart.com/products/red-panda-bitmap-2-reduction-and-modulation-pedal"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TRS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "ctrl", "label": "CTRL (EXP/Remote/MIDI)", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "USB (type not confirmed)"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 250}
+			]
+		},
+		{
+			"key": "redpanda-raster2.png",
+			"brand": "Red Panda",
+			"name": "Raster 2",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "250 mA at 9V center negative. Stereo TRS in/out. CTRL jack (listed as 1/4in TS by one retailer) takes expression, remote, tap or MIDI; MIDI also over USB.",
+			"sources": ["https://www.bhphotovideo.com/c/product/1646385-REG/red_panda_rpl_104v2_raster_2_digital_delay.html/overview"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TRS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "ctrl", "label": "CTRL (EXP/Remote/MIDI)", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "USB (type not confirmed)"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 250}
+			]
+		},
+		{
+			"key": "solidgold-nu33.png",
+			"brand": "SolidGoldFX",
+			"name": "NU-33 Vinyl Engine",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Official: 9V DC center negative, 60 mA. Assignable expression/CV input. Top-mounted jacks.",
+			"sources": ["https://solidgoldfx.com/collections/all/products/nu-33-vinyl-engine"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp", "label": "EXP/CV", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 60}
+			]
+		},
+		{
+			"key": "source-audio-eq2.png",
+			"brand": "Source Audio",
+			"name": "EQ2",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "180 mA at 9V. Stereo in/out, 3.5mm control input (Source Audio expression pedal, tap switch or Neuro Hub), 5-pin MIDI In and Thru. Newer units have USB-MIDI.",
+			"sources": ["https://electricmojoguitars.com/products/source-audio-eq2", "https://zzounds.com/item--SOREQ2"],
+			"ports": [
+				{"id": "inA", "label": "Input 1", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "inB", "label": "Input 2", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "outA", "label": "Output 1", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outB", "label": "Output 2", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "ctrl", "label": "Control Input", "type": "ctrl", "direction": "in", "connector": "3.5mm TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "midiout", "label": "MIDI Thru", "type": "midi", "direction": "out", "connector": "5-pin DIN"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "USB (type not confirmed)"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 180}
+			]
+		},
+		{
+			"key": "strymon-conduit.png",
+			"brand": "Strymon",
+			"name": "Conduit",
+			"subcategory": "MIDI Interface",
+			"verified": false,
+			"notes": "MIDI hub: opto-isolated 5-pin DIN in and out, four bi-directional 1/4in TRS MIDI ports (each set independently), USB-C. 50 mA at 9V, or USB bus power.",
+			"sources": ["https://www.kraftmusic.com/strymon-conduit-midi-hub.html", "https://www.tho.mn/pl/strymon_conduit_midi_hub.htm"],
+			"ports": [
+				{"id": "dinin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "dinout", "label": "MIDI Out", "type": "midi", "direction": "out", "connector": "5-pin DIN"},
+				{"id": "trs1", "label": "TRS 1", "type": "midi", "direction": "both", "connector": "TRS", "side": "right"},
+				{"id": "trs2", "label": "TRS 2", "type": "midi", "direction": "both", "connector": "TRS", "side": "right"},
+				{"id": "trs3", "label": "TRS 3", "type": "midi", "direction": "both", "connector": "TRS", "side": "right"},
+				{"id": "trs4", "label": "TRS 4", "type": "midi", "direction": "both", "connector": "TRS", "side": "right"},
+				{"id": "usb", "label": "USB-C", "type": "midi", "direction": "both", "connector": "USB-C"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 50}
+			]
+		},
+		{
+			"key": "strymon-iridium.png",
+			"brand": "Strymon",
+			"name": "Iridium",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Manual: 9V DC center negative, 500 mA minimum. TRS input (mono, or stereo via TRS). EXP/MIDI jack takes an expression pedal, footswitch, or MIDI via Strymon MIDI EXP cable. USB Mini-B for IRs and firmware.",
+			"sources": ["https://www.zzounds.com/item--STMIRIDIUM", "https://www.chicagomusicexchange.com/products/strymon-iridium-amp-and-ir-cab-simulator-pedal-1382717"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TRS"},
+				{"id": "outL", "label": "Out L/Mono", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "outR", "label": "Out R", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "phones", "label": "Phones", "type": "audio", "direction": "out", "connector": "3.5mm TRS"},
+				{"id": "exp", "label": "EXP/MIDI", "type": ["midi", "ctrl"], "direction": "in", "connector": "TRS"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "Mini-B"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500}
+			]
+		},
+		{
+			"key": "strymon-miniswitch.png",
+			"brand": "Strymon",
+			"name": "Mini Switch",
+			"subcategory": "Controller",
+			"verified": false,
+			"notes": "Passive single footswitch, no power. 1/4in TRS (cable included). Internal jumper: Favorite/Boost or Tap Tempo mode.",
+			"sources": ["https://www.creamcitymusic.com/strymon-miniswitch-preset-tap-tempo-switch/"],
+			"ports": [
+				{"id": "out", "label": "Switch Out", "type": "ctrl", "direction": "out", "connector": "TRS"}
+			]
+		},
+		{
+			"key": "strymon-ojai.png",
+			"brand": "Strymon",
+			"name": "Ojai",
+			"subcategory": "Power Supply",
+			"verified": false,
+			"notes": "Official: 5 isolated 9V 500 mA outputs, no voltage switch. Runs from 24V DC: the included PS-124 adapter, or a Zuma/Zuma R300 24V link. 24V Thru links more Ojai units. The 24V In draw (1000 mA) is a placeholder, not a published figure.",
+			"sources": ["https://www.strymon.net/product/ojai/"],
+			"ports": [
+				{"id": "pwr1", "label": "Out 1", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr2", "label": "Out 2", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr3", "label": "Out 3", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr4", "label": "Out 4", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr5", "label": "Out 5", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "dc24", "label": "24V In", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 24, "current": 1000}
+			]
+		},
+		{
+			"key": "strymon-zuma.png",
+			"brand": "Strymon",
+			"name": "Zuma",
+			"subcategory": "Power Supply",
+			"verified": false,
+			"notes": "Official: 9 isolated outputs, 48W max. Per the owner: outputs 1-6 fixed 9V 500 mA; outputs 7 and 8 switchable 9V 500 mA / 12V 275 mA / 18V 250 mA; output 9 is a fixed 24V link that powers an Ojai/Ojai R30 (its 1000 mA is a placeholder, not a published figure). Mains via IEC cable (100-240V).",
+			"sources": ["https://www.strymon.net/product/zuma/"],
+			"ports": [
+				{"id": "pwr1", "label": "Out 1", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr2", "label": "Out 2", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr3", "label": "Out 3", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr4", "label": "Out 4", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr5", "label": "Out 5", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr6", "label": "Out 6", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr7", "label": "Out 7", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": [9, 12, 18], "currentByVoltage": {"9": 500, "12": 275, "18": 250}},
+				{"id": "pwr8", "label": "Out 8", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": [9, 12, 18], "currentByVoltage": {"9": 500, "12": 275, "18": 250}},
+				{"id": "pwr9", "label": "Out 9 (24V)", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 24, "current": 1000, "voltageOptions": []}
+			]
+		},
+		{
+			"key": "strymon-zumar300.png",
+			"brand": "Strymon",
+			"name": "Zuma R300",
+			"subcategory": "Power Supply",
+			"verified": false,
+			"notes": "Official: 5 isolated outputs, 36W max. Outputs 1-4 fixed 9V 500 mA; output 5 switchable 9V 500 mA / 12V 375 mA / 18V 250 mA. 24V Thru links an Ojai/Ojai R30. Mains via IEC cable.",
+			"sources": ["https://www.strymon.net/product/zuma-r300/"],
+			"ports": [
+				{"id": "pwr1", "label": "Out 1", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr2", "label": "Out 2", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr3", "label": "Out 3", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr4", "label": "Out 4", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr5", "label": "Out 5", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": [9, 12, 18], "currentByVoltage": {"9": 500, "12": 375, "18": 250}}
+			]
+		},
+		{
+			"key": "tc-polytune-3.png",
+			"brand": "TC Electronic",
+			"name": "Polytune 3",
+			"subcategory": "Tuner",
+			"verified": false,
+			"notes": "100 mA in most listings (one says 45 mA). True bypass or buffered (switchable). A user review mentions a DC output for powering another pedal; not confirmed in specs, so not modeled.",
+			"sources": ["https://thomannmusic.no/tc_electronic_polytune_3_noir.htm", "https://www.soundhouse.co.jp/en/products/detail/item/236578/"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100}
+			]
+		},
+		{
+			"key": "tc-poly3mini.png",
+			"brand": "TC Electronic",
+			"name": "Polytune 3 Mini",
+			"subcategory": "Tuner",
+			"verified": false,
+			"notes": "Thomann lists 40 mA; ModularGrid and RockBoard list 100 mA. 100 mA used to be safe.",
+			"sources": ["https://www.thomann.co.uk/tc_electronic_polytune_3_mini_b_stock.htm", "https://modulargrid.net/p/tc-electronic-polytune-3-mini-noir"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100}
+			]
+		},
+		{
+			"key": "tc-spark.png",
+			"brand": "TC Electronic",
+			"name": "Spark Mini Booster",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "No published figure for the Mini; the full-size Spark Booster draws 16-20 mA, so 20 mA is an estimate. 9V center negative.",
+			"sources": ["https://modulargrid.net/p/modules/view/11848", "https://www.rockboard.de/en/pedalPedia/TC-Electronic/Spark-Booster/68985297"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 20}
+			]
+		},
+		{
+			"key": "tech21-sansamp-gt2.png",
+			"brand": "Tech 21 NYC",
+			"name": "Sansamp GT2",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Tech 21 manual: about 4 mA. Use a 9V DC supply rated 100 mA minimum, 2.1mm center negative (or a 9V battery; plugging into the input turns it on).",
+			"sources": ["https://www.tech21nyc.com/wp-content/uploads/2025/07/Tech21_SansAmp_GT2_OM8-1.pdf"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Output", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 4}
+			]
+		},
+		{
+			"key": "toneking-imperial-preamp.png",
+			"brand": "Tone King",
+			"name": "Imperial Preamp",
+			"subcategory": "Preamp",
+			"verified": false,
+			"notes": "Tri-tube preamp (Tone King, not King Tone). Manual: DC input 9V to 12V, needs >= 9W; ships with a 12V adapter, so 12V 750 mA here (about 1 A at 9V). Plug polarity isn't stated in the manual: center negative is assumed, check the adapter. Stereo master effects loop (Send, Return L/R; use L for mono). Balanced XLR outs L/R with ground lift carry the IR / power amp sim. To Amp In is a true-bypass output, active only when bypassed; From Amp Send / To Amp Return add the Imperial as a channel of an amp through its loop (To Amp Return always active, also usable as a power amp feed). Headphones out. MIDI In only (no Thru/Out), default channel Omni. USB-C for the editor, updates and audio streaming.",
+			"sources": ["https://www.manualslib.com/manual/3714305/Tone-King-Imperial.html?page=4", "https://www.manualslib.com/manual/3714305/Tone-King-Imperial.html?page=5", "https://www.toneking.com/wp-content/uploads/2025/04/TONE-KING-IMPERIAL-PREAMP-INSTRUCTION-MANUAL-BOOKLET.pdf", "https://www.thomann.co.uk/tone_king_imperial_tri_tube_preamp.htm"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "return_l", "label": "Return L/Mono", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "return_r", "label": "Return R", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "from_amp_send", "label": "From Amp Send", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "send", "label": "FX Send", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "to_amp_in", "label": "To Amp In", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "to_amp_return", "label": "To Amp Return", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "xlr_l", "label": "Balanced Out L", "type": "audio", "direction": "out", "connector": "XLR"},
+				{"id": "xlr_r", "label": "Balanced Out R", "type": "audio", "direction": "out", "connector": "XLR"},
+				{"id": "phones", "label": "Headphones", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "usb", "label": "USB", "type": "midi", "direction": "both", "connector": "USB-C"},
+				{"id": "power", "label": "DC In", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 12, "current": 750}
+			]
+		},
+		{
+			"key": "valeton-gp-5.png",
+			"brand": "Valeton",
+			"name": "GP-5",
+			"subcategory": "Multi-effect",
+			"verified": false,
+			"notes": "100 mA on 9V center negative (190 mA on USB 5V bus power). TRS output is stereo line out and headphone out. USB-C: audio interface, files, firmware. MIDI unconfirmed (listings conflict), not modeled.",
+			"sources": ["https://www.thomann.de/it/valeton_gp_5.htm", "https://reverb.com/item/97427830-valeton-gp-5-multi-effects-processor-made-in-china"],
+			"ports": [
+				{"id": "in", "label": "Input", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Output / Phones", "type": "audio", "direction": "out", "connector": "TRS"},
+				{"id": "usb", "label": "USB-C", "type": "midi", "direction": "both", "connector": "USB-C"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100}
+			]
+		},
+		{
+			"key": "xotic-ep.png",
+			"brand": "Xotic",
+			"name": "EP Booster",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Official: 9V DC, 5 mA. Accepts 9-18V for more headroom. 9V battery option.",
+			"sources": ["https://xotic.us/effects/ep-booster/"],
+			"ports": [
+				{"id": "in", "label": "In", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 5}
+			]
+		}
+	]
+}

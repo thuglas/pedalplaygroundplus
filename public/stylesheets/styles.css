@@ -8449,3 +8449,1522 @@ body .btn {
     border-color: transparent;
   }
 }
+
+/* My Collection */
+#my-collection #filter-collection {
+	margin-bottom: 8px;
+}
+
+.collection-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow-y: auto;
+}
+
+.collection-item {
+	display: flex;
+	align-items: center;
+	border-radius: 4px;
+}
+
+.collection-item:hover {
+	background: rgba(128, 128, 128, 0.12);
+}
+
+.collection-item__add,
+.collection-item__missing {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	padding: 4px 6px;
+	color: inherit;
+	font-size: 13px;
+}
+
+.collection-item__add:hover,
+.collection-item__add:focus {
+	color: inherit;
+	text-decoration: none;
+}
+
+.collection-item__add img {
+	width: 24px;
+	height: 24px;
+	object-fit: contain;
+	flex-shrink: 0;
+}
+
+.collection-item__add span,
+.collection-item__missing {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.collection-item__missing {
+	opacity: 0.5;
+	text-decoration: line-through;
+}
+
+.collection-item__remove {
+	border: 0;
+	background: none;
+	color: inherit;
+	opacity: 0.4;
+	font-size: 18px;
+	line-height: 1;
+	padding: 2px 8px;
+}
+
+.collection-item__remove:hover,
+.collection-item__remove:focus {
+	opacity: 1;
+	color: #cb2532;
+}
+
+.collection-empty,
+.collection-note {
+	font-size: 12px;
+	opacity: 0.6;
+	margin: 4px 0 0;
+}
+
+.collection-note {
+	display: none;
+}
+
+/* My Collection header and edit mode */
+.collection-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-bottom: 10px;
+}
+
+.collection-header .h4 {
+	margin: 0;
+	white-space: nowrap;
+}
+
+.collection-header .btn {
+	flex-shrink: 0;
+}
+
+/* Remove buttons and the add/import tools only show while editing */
+.collection-item__remove,
+.collection-edit-tools {
+	display: none;
+}
+
+#my-collection.is-editing .collection-item__remove,
+#my-collection.is-editing .collection-edit-tools {
+	display: block;
+}
+
+.collection-edit-tools {
+	margin-top: 12px;
+	padding-top: 12px;
+	border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+	.collection-edit-tools {
+		border-top-color: rgba(255, 255, 255, 0.1);
+	}
+}
+
+/* On desktop the sidebar is the height of the window and the collection list fills
+   whatever space the tab has left; on the mobile slide-up panel it stays capped. */
+@media (max-width: 1023px) {
+	.collection-list {
+		max-height: 320px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.sidebar {
+		position: sticky;
+		top: 0;
+		height: calc(100vh - 5.5rem);
+	}
+	.sidebar__inner,
+	.sidebar__scroll,
+	.sidebar-tabs,
+	.sidebar-tabs > .tab-content,
+	.sidebar-tabs > .tab-content > .tab-pane.active,
+	#my-collection {
+		display: flex;
+		flex-direction: column;
+		flex: 1 1 auto;
+		min-height: 0;
+	}
+	.sidebar__scroll {
+		overflow-y: auto;
+	}
+	.collection-list {
+		flex: 1 1 auto;
+		min-height: 80px;
+	}
+}
+
+/* View tabs (Playground / Signal Flow) */
+.view-tabs {
+	display: flex;
+	gap: 4px;
+	padding: 3px;
+	border-radius: 8px;
+	background: rgba(97, 109, 128, 0.12);
+}
+
+.view-tab {
+	border: 0;
+	background: none;
+	color: inherit;
+	font-size: 13px;
+	font-weight: 600;
+	padding: 5px 14px;
+	border-radius: 6px;
+	opacity: 0.6;
+}
+
+.view-tab:hover {
+	opacity: 1;
+}
+
+.view-tab.active {
+	opacity: 1;
+	background: white;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+	.view-tabs {
+		background: rgba(255, 255, 255, 0.06);
+	}
+	.view-tab {
+		color: #f8f8f8;
+	}
+	.view-tab.active {
+		background: #27262a;
+	}
+}
+
+/* Signal Flow editor */
+.signal-flow {
+	flex: 1 1 auto;
+	position: relative;
+	z-index: 1;
+	height: calc(100vh - 5.5rem);
+	overflow: auto;
+	background-image: url("../images/grid.svg");
+	background-size: 25px;
+	background-color: #F6F8FA;
+	margin-left: -1px;
+	border-left: 1px solid #F6F8FA;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.signal-flow__surface {
+	position: relative;
+	min-width: 100%;
+	min-height: 100%;
+}
+
+.signal-flow__wires {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	pointer-events: none;
+	z-index: 0;
+}
+
+.signal-flow__nodes {
+	position: relative;
+	z-index: 1;
+}
+
+.signal-flow__empty {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 420px;
+	text-align: center;
+	opacity: 0.6;
+}
+
+.flow-wire {
+	cursor: pointer;
+}
+
+.flow-wire__hit {
+	fill: none;
+	stroke: transparent;
+	stroke-width: 14;
+	pointer-events: stroke;
+}
+
+.flow-wire__line,
+.flow-wire__pending {
+	fill: none;
+	stroke: #616d80;
+	stroke-width: 3;
+	stroke-linecap: round;
+}
+
+.flow-wire:hover .flow-wire__line {
+	stroke: #cb2532;
+	stroke-dasharray: 6 5;
+}
+
+.flow-wire__pending {
+	stroke: #8576f7;
+	stroke-dasharray: 6 5;
+}
+
+.flow-node {
+	position: absolute;
+	background: white;
+	border: 1px solid rgba(97, 109, 128, 0.35);
+	border-radius: 8px;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+	cursor: grab;
+	touch-action: none;
+}
+
+.flow-node.is-dragging {
+	cursor: grabbing;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.flow-node__name {
+	padding: 8px 12px;
+	font-weight: 600;
+	font-size: 13px;
+	border-bottom: 1px solid rgba(97, 109, 128, 0.2);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.flow-node__ports {
+	display: flex;
+	justify-content: space-between;
+	padding: 6px 0;
+}
+
+.flow-node__inputs,
+.flow-node__outputs {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.flow-port {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	padding: 3px 0;
+	cursor: crosshair;
+	touch-action: none;
+}
+
+.flow-port--in {
+	margin-left: -7px;
+}
+
+.flow-port--out {
+	margin-right: -7px;
+	justify-content: flex-end;
+}
+
+.flow-port__connector {
+	display: block;
+	font-size: 10px;
+	opacity: 0.6;
+}
+
+.flow-port__dot {
+	width: 13px;
+	height: 13px;
+	border-radius: 50%;
+	background: white;
+	border: 2px solid #616d80;
+	flex-shrink: 0;
+	transition: transform 0.1s;
+}
+
+.flow-port.is-connected .flow-port__dot {
+	background: #616d80;
+}
+
+.flow-port:hover .flow-port__dot,
+.flow-port.is-hover .flow-port__dot {
+	transform: scale(1.3);
+	border-color: #8576f7;
+}
+
+/* While dragging a new cable, dim ports it can't connect to */
+.signal-flow.is-connecting .flow-port:not(.is-target) {
+	opacity: 0.3;
+}
+
+.signal-flow.is-connecting .flow-port.is-target .flow-port__dot {
+	border-color: #8576f7;
+}
+
+@media (prefers-color-scheme: dark) {
+	.signal-flow {
+		background-color: #27262a;
+		background-image: url("../images/grid-dark.svg");
+		border-left-color: #27262a;
+	}
+	.flow-node {
+		background: #232226;
+		border-color: rgba(255, 255, 255, 0.15);
+	}
+	.flow-node__name {
+		border-bottom-color: rgba(255, 255, 255, 0.1);
+	}
+	.flow-port__dot {
+		background: #232226;
+		border-color: #a3a9b4;
+	}
+	.flow-port.is-connected .flow-port__dot {
+		background: #a3a9b4;
+	}
+	.flow-wire__line {
+		stroke: #a3a9b4;
+	}
+}
+
+/* Shown when pedal data cannot load (e.g. page opened as a file) */
+.data-load-error {
+	margin: 2rem 2rem 0;
+	padding: 10px 12px;
+	border-radius: 6px;
+	font-size: 13px;
+	line-height: 1.4;
+	color: #8a1c25;
+	background: #fdecee;
+	border: 1px solid rgba(203, 37, 50, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+	.data-load-error {
+		color: #f5b5bb;
+		background: rgba(203, 37, 50, 0.15);
+	}
+}
+
+/* Sidebar tabs (Board / Pedal / Custom / My Collection), styled like the custom item tabs */
+.sidebar-tabs > .nav-tabs {
+	display: flex;
+	margin: 0 0 1.6rem;
+	border: none;
+	background: #F6F8FA;
+	padding: 2px;
+	border-radius: 5px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) inset;
+}
+
+.sidebar-tabs > .nav-tabs:before,
+.sidebar-tabs > .nav-tabs:after {
+	display: none;
+}
+
+.sidebar-tabs > .nav-tabs > li {
+	float: none;
+	flex: 1 1 auto;
+	background: none !important;
+	margin: 0 !important;
+}
+
+.sidebar-tabs > .nav-tabs > li > a {
+	text-align: center;
+	padding: 4px 5px;
+	font-size: 12.5px;
+	font-weight: 500;
+	white-space: nowrap;
+	border-radius: 4px;
+	color: #333;
+	background: none;
+	border: 1px solid transparent;
+	margin: 0;
+}
+
+.sidebar-tabs > .nav-tabs > li.active > a,
+.sidebar-tabs > .nav-tabs > li.active > a:hover,
+.sidebar-tabs > .nav-tabs > li.active > a:focus {
+	background: linear-gradient(white, #f9f9f9);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05), 0 2px 3px rgba(92, 98, 252, 0.08);
+	background-clip: padding-box;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-top-color: rgba(0, 0, 0, 0.05);
+	border-bottom-color: rgba(0, 0, 0, 0.12);
+	color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+	.sidebar-tabs > .nav-tabs {
+		background: rgba(0, 0, 0, 0.2);
+		box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+	}
+	.sidebar-tabs > .nav-tabs > li > a {
+		color: #ddd;
+		text-shadow: 0 1px 0 black;
+	}
+	.sidebar-tabs > .nav-tabs > li.active > a,
+	.sidebar-tabs > .nav-tabs > li.active > a:hover,
+	.sidebar-tabs > .nav-tabs > li.active > a:focus {
+		background: #27262a;
+		color: white;
+		border: 1px solid rgba(255, 255, 255, 0);
+		border-top-color: rgba(255, 255, 255, 0.025);
+	}
+}
+
+.sidebar-tabs #custom-items h2 {
+	margin-top: 0;
+}
+
+.btn-collect.is-flashed {
+	color: #2e8540;
+	border-color: rgba(46, 133, 64, 0.5);
+}
+
+/* Collection entries for boards and custom items */
+.collection-item__text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.collection-item__text small {
+	font-size: 11px;
+	opacity: 0.6;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.collection-item__swatch {
+	width: 24px;
+	height: 24px;
+	flex-shrink: 0;
+	border-radius: 4px;
+	background: #888;
+}
+
+.collection-item__swatch--custom-board {
+	background: none;
+	border: 3px solid #616d80;
+}
+
+.collection-item__missing.is-pending {
+	text-decoration: none;
+}
+
+/* Parts List view */
+.parts-list {
+	flex: 1 1 auto;
+	position: relative;
+	z-index: 1;
+	height: calc(100vh - 5.5rem);
+	overflow: auto;
+	padding: 24px 32px;
+	background-color: #F6F8FA;
+	margin-left: -1px;
+	border-left: 1px solid #F6F8FA;
+}
+
+.parts-list__toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 14px;
+}
+
+.parts-list__title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.parts-list__sheet {
+	background: white;
+	border: 1px solid #d5dae1;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.parts-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+	font-variant-numeric: tabular-nums;
+}
+
+.parts-table th,
+.parts-table td {
+	padding: 6px 10px;
+	border-right: 1px solid #e3e7ec;
+	border-bottom: 1px solid #e3e7ec;
+	text-align: left;
+	vertical-align: top;
+}
+
+.parts-table th:last-child,
+.parts-table td:last-child {
+	border-right: 0;
+}
+
+.parts-table thead th {
+	position: sticky;
+	top: 0;
+	background: #eef1f5;
+	font-weight: 600;
+	border-bottom-color: #d5dae1;
+}
+
+.parts-table .parts-table__num {
+	width: 40px;
+	text-align: center;
+	background: #eef1f5;
+	color: #8a93a2;
+	font-size: 12px;
+}
+
+.parts-table .is-numeric {
+	text-align: right;
+}
+
+.parts-table tbody tr:hover td:not(.parts-table__num) {
+	background: rgba(133, 118, 247, 0.06);
+}
+
+.parts-table tfoot td {
+	font-weight: 600;
+	background: #f6f8fa;
+	border-bottom: 0;
+}
+
+.parts-list__empty {
+	margin-top: 40px;
+	text-align: center;
+	opacity: 0.6;
+}
+
+@media (prefers-color-scheme: dark) {
+	.parts-list {
+		background-color: #27262a;
+		border-left-color: #27262a;
+	}
+	.parts-list__sheet {
+		background: #232226;
+		border-color: rgba(255, 255, 255, 0.12);
+	}
+	.parts-table th,
+	.parts-table td {
+		border-color: rgba(255, 255, 255, 0.08);
+	}
+	.parts-table thead th,
+	.parts-table .parts-table__num,
+	.parts-table tfoot td {
+		background: #2d2c31;
+		color: #ccc;
+	}
+	.parts-table .parts-table__num {
+		color: #888;
+	}
+}
+
+/* Import from Reverb */
+.collection-hint {
+	font-size: 12px;
+	opacity: 0.6;
+	margin: 4px 0 12px;
+}
+
+#reverb-import-modal .modal-dialog {
+	width: auto;
+	max-width: 980px;
+	margin: 30px auto;
+	padding: 0 16px;
+}
+
+.reverb-import__summary {
+	font-weight: 600;
+}
+
+.reverb-import__help {
+	font-size: 13px;
+	opacity: 0.7;
+}
+
+.reverb-import__table-wrap {
+	max-height: 60vh;
+	overflow: auto;
+	border: 1px solid #d5dae1;
+	border-radius: 6px;
+}
+
+.reverb-import__table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+.reverb-import__table th,
+.reverb-import__table td {
+	padding: 6px 10px;
+	border-bottom: 1px solid #e3e7ec;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.reverb-import__table thead th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: #eef1f5;
+	font-weight: 600;
+}
+
+.reverb-import__table td:first-child,
+.reverb-import__table th:first-child {
+	width: 36px;
+	text-align: center;
+}
+
+.reverb-import__table td:nth-child(3) {
+	width: 40%;
+}
+
+.reverb-import__table td:last-child {
+	width: 110px;
+	white-space: nowrap;
+}
+
+.reverb-import__title {
+	font-weight: 500;
+}
+
+.reverb-import__table small {
+	display: block;
+	opacity: 0.6;
+}
+
+.reverb-import__status {
+	display: inline-block;
+	padding: 1px 8px;
+	border-radius: 10px;
+	font-size: 12px;
+	background: rgba(97, 109, 128, 0.12);
+}
+
+.is-match .reverb-import__status {
+	background: rgba(46, 133, 64, 0.14);
+	color: #2e7a3c;
+}
+
+.is-possible .reverb-import__status {
+	background: rgba(214, 150, 20, 0.16);
+	color: #8a5a00;
+}
+
+.is-collected .reverb-import__status,
+.is-none .reverb-import__status {
+	opacity: 0.8;
+}
+
+@media (prefers-color-scheme: dark) {
+	.reverb-import__table-wrap {
+		border-color: rgba(255, 255, 255, 0.12);
+	}
+	.reverb-import__table th,
+	.reverb-import__table td {
+		border-color: rgba(255, 255, 255, 0.08);
+	}
+	.reverb-import__table thead th {
+		background: #2d2c31;
+	}
+	.is-match .reverb-import__status {
+		color: #7fd18f;
+	}
+	.is-possible .reverb-import__status {
+		color: #f0c060;
+	}
+}
+
+/* Signal types: each has a color for its filter button, ports and cables.
+   --flow-color is the type's color; a jack carrying two types also gets --flow-color-2. */
+.signal-flow {
+	--flow-audio: #3b7ddd;
+	--flow-power: #e0483e;
+	--flow-midi: #2e9e5b;
+	--flow-ctrl: #d98a14;
+}
+
+.flow-type--audio {
+	--flow-color: var(--flow-audio);
+}
+
+.flow-type--power {
+	--flow-color: var(--flow-power);
+}
+
+.flow-type--midi {
+	--flow-color: var(--flow-midi);
+}
+
+.flow-type--ctrl {
+	--flow-color: var(--flow-ctrl);
+}
+
+.flow-type2--audio {
+	--flow-color-2: var(--flow-audio);
+}
+
+.flow-type2--power {
+	--flow-color-2: var(--flow-power);
+}
+
+.flow-type2--midi {
+	--flow-color-2: var(--flow-midi);
+}
+
+.flow-type2--ctrl {
+	--flow-color-2: var(--flow-ctrl);
+}
+
+.signal-flow__filters {
+	position: sticky;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	width: max-content;
+	max-width: 100%;
+	padding: 12px 16px;
+}
+
+.flow-filter {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 12px 4px 8px;
+	font-size: 12.5px;
+	font-weight: 600;
+	color: #333;
+	background: white;
+	border: 2px solid var(--flow-color);
+	border-radius: 16px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.flow-filter__swatch {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: var(--flow-color);
+}
+
+.flow-filter.is-off {
+	border-color: rgba(97, 109, 128, 0.35);
+	color: #8a93a2;
+	text-decoration: line-through;
+}
+
+.flow-filter.is-off .flow-filter__swatch {
+	background: none;
+	border: 2px solid var(--flow-color);
+	opacity: 0.6;
+}
+
+.flow-port .flow-port__dot {
+	border-color: var(--flow-color);
+}
+
+.flow-port.is-connected .flow-port__dot {
+	background: var(--flow-color);
+}
+
+.flow-wire .flow-wire__line,
+.flow-wire__pending {
+	stroke: var(--flow-color);
+}
+
+/* Hovering a cable shows it can be clicked away, without changing its color */
+.flow-wire:hover .flow-wire__line {
+	stroke: var(--flow-color);
+	stroke-width: 4;
+}
+
+@media (prefers-color-scheme: dark) {
+	.signal-flow {
+		--flow-audio: #6ea2ef;
+		--flow-power: #f0736a;
+		--flow-midi: #5cc787;
+		--flow-ctrl: #f0b04a;
+	}
+	.flow-filter {
+		color: #eee;
+		background: #232226;
+	}
+	.flow-filter.is-off {
+		border-color: rgba(255, 255, 255, 0.15);
+		color: #888;
+	}
+	.flow-port .flow-port__dot {
+		border-color: var(--flow-color);
+	}
+	.flow-port.is-connected .flow-port__dot {
+		background: var(--flow-color);
+	}
+	.flow-wire .flow-wire__line {
+		stroke: var(--flow-color);
+	}
+}
+
+/* Power and MIDI jacks sit along the bottom edge, so daisy-chain cables hang below the boxes */
+.flow-node__bottom {
+	display: flex;
+	justify-content: space-around;
+	list-style: none;
+	margin: 0;
+	padding: 4px 0 0;
+	border-top: 1px solid rgba(97, 109, 128, 0.2);
+}
+
+.flow-port--bottom {
+	flex-direction: column;
+	gap: 2px;
+	padding: 0;
+	margin-bottom: -7px;
+}
+
+@media (prefers-color-scheme: dark) {
+	.flow-node__bottom {
+		border-top-color: rgba(255, 255, 255, 0.1);
+	}
+}
+
+/* A jack carrying two signal types (shared MIDI/CTRL) shows both colors */
+.flow-port--multi .flow-port__dot,
+.flow-port.flow-port--multi .flow-port__dot {
+	border-color: var(--flow-color) var(--flow-color-2) var(--flow-color-2) var(--flow-color);
+}
+
+.flow-port--multi.is-connected .flow-port__dot {
+	background: linear-gradient(135deg, var(--flow-color) 50%, var(--flow-color-2) 50%);
+}
+
+/* Per-pedal jack options */
+.flow-node__name {
+	padding-right: 30px;
+}
+
+.flow-node__menu-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 24px;
+	height: 24px;
+	padding: 0;
+	border: 0;
+	border-radius: 4px;
+	background: none;
+	color: inherit;
+	font-size: 12px;
+	line-height: 24px;
+	opacity: 0.45;
+}
+
+.flow-node__menu-btn:hover,
+.flow-node.is-menu-open .flow-node__menu-btn {
+	opacity: 1;
+	background: rgba(97, 109, 128, 0.12);
+}
+
+.flow-node__options {
+	display: none;
+	position: absolute;
+	top: 32px;
+	right: -1px;
+	z-index: 2;
+	width: 220px;
+	padding: 8px 12px;
+	font-size: 12px;
+	background: white;
+	border: 1px solid rgba(97, 109, 128, 0.35);
+	border-radius: 6px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	cursor: default;
+}
+
+.flow-node.is-menu-open .flow-node__options {
+	display: block;
+}
+
+.flow-node__options label {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.flow-node__options input {
+	margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+	.flow-port.flow-port--multi .flow-port__dot {
+		border-color: var(--flow-color) var(--flow-color-2) var(--flow-color-2) var(--flow-color);
+	}
+	.flow-port--multi.is-connected .flow-port__dot {
+		background: linear-gradient(135deg, var(--flow-color) 50%, var(--flow-color-2) 50%);
+	}
+	.flow-node__options {
+		background: #2d2c31;
+		border-color: rgba(255, 255, 255, 0.15);
+	}
+}
+
+/* Connector and power badges next to port labels */
+.flow-port__connector {
+	display: inline;
+	margin-left: 4px;
+	font-size: 10px;
+	opacity: 0.55;
+}
+
+.flow-port--bottom .flow-port__connector {
+	display: block;
+	margin-left: 0;
+	text-align: center;
+}
+
+/* Power problems: wrong voltage, overloaded output, ... */
+.flow-port.is-power-problem .flow-port__connector {
+	opacity: 1;
+	color: #d0342c;
+	font-weight: 700;
+}
+
+.flow-port.is-power-problem .flow-port__label:after {
+	content: " \26A0";
+	color: #d0342c;
+}
+
+.flow-wire.is-warning .flow-wire__line {
+	stroke-dasharray: 3 5;
+}
+
+/* Power supplies and Y cables */
+.flow-node--supply {
+	border-color: var(--flow-power);
+	border-width: 2px;
+}
+
+.flow-node--junction {
+	border-style: dashed;
+}
+
+.flow-node--junction .flow-node__name {
+	font-size: 12px;
+	padding: 5px 26px 5px 10px;
+}
+
+.flow-node__detail {
+	display: block;
+	font-size: 10px;
+	font-weight: 500;
+	opacity: 0.6;
+}
+
+.flow-node__remove {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	border: 0;
+	border-radius: 4px;
+	background: none;
+	color: inherit;
+	font-size: 16px;
+	line-height: 20px;
+	opacity: 0.45;
+}
+
+.flow-node__remove:hover {
+	opacity: 1;
+	color: #d0342c;
+	background: rgba(208, 52, 44, 0.1);
+}
+
+/* Options menu rows */
+.flow-node__options {
+	width: 280px;
+	max-height: 60vh;
+	overflow-y: auto;
+}
+
+.flow-node__options > label {
+	margin-bottom: 6px;
+}
+
+.flow-option-title {
+	margin: 8px 0 4px;
+	font-weight: 600;
+	opacity: 0.7;
+}
+
+.flow-option-row {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 4px;
+}
+
+.flow-option-row > span:first-child {
+	flex: 1 1 auto;
+	white-space: nowrap;
+}
+
+.flow-option-row label {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+	margin: 0;
+	font-weight: 500;
+}
+
+.flow-option-row select,
+.flow-option-row input[type="number"] {
+	height: 24px;
+	padding: 0 4px;
+	font-size: 12px;
+	border: 1px solid rgba(97, 109, 128, 0.35);
+	border-radius: 4px;
+	background: white;
+	color: inherit;
+}
+
+.flow-option-row input[type="number"] {
+	width: 58px;
+}
+
+@media (prefers-color-scheme: dark) {
+	.flow-option-row select,
+	.flow-option-row input[type="number"] {
+		background: #232226;
+		border-color: rgba(255, 255, 255, 0.15);
+	}
+	.flow-port.is-power-problem .flow-port__connector,
+	.flow-port.is-power-problem .flow-port__label:after {
+		color: #f0736a;
+	}
+}
+
+.flow-option-note {
+	margin-bottom: 6px;
+	font-size: 11px;
+	opacity: 0.65;
+}
+
+/* Bottom row: keep labels on one line; long connector names are shortened (full text on hover) */
+.flow-port--bottom {
+	flex: 1 1 0;
+	min-width: 0;
+	font-size: 11px;
+}
+
+.flow-port--bottom .flow-port__label {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: center;
+}
+
+.flow-port--bottom .flow-port__connector {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Cable ends: a Y cable lists one plug per line */
+.parts-table .parts-table__side {
+	white-space: pre-line;
+}
+
+/* Side jacks in rows (inputs left, outputs right) so MIDI In and Out line up */
+.flow-node__ports {
+	display: block;
+}
+
+.flow-row {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.flow-row__in,
+.flow-row__out {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+/* A blank side gives its room to the jack opposite */
+.flow-row__in:empty,
+.flow-row__out:empty {
+	flex: 0 1 0;
+}
+
+.flow-row__out .flow-port {
+	text-align: right;
+}
+
+/* Editable cable lengths: one box, or one per daisy-chain segment */
+.parts-table .parts-table__length {
+	min-width: 110px;
+}
+
+.parts-length {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	margin: 0 0 3px;
+	font-weight: 500;
+}
+
+.parts-length:last-child {
+	margin-bottom: 0;
+}
+
+.parts-length__label {
+	width: 12px;
+	font-size: 11px;
+	opacity: 0.6;
+}
+
+.parts-length__input.form-control {
+	height: 24px;
+	padding: 2px 6px;
+	font-size: 12px;
+}
+
+/* Voltage switch on a supply output, beside its jack */
+.flow-port__connector .flow-port__switch {
+	height: 18px;
+	padding: 0 2px;
+	font-size: 10px;
+	line-height: 16px;
+	border: 1px solid #b9c0cc;
+	border-radius: 3px;
+	background: white;
+	color: #2b3340;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+.flow-port:has(.flow-port__switch) .flow-port__connector {
+	opacity: 1;
+}
+
+/* ------------------------------------------------------------------------------------
+   Underside of the board: pedals mounted under the pedalboard, and the flipped view */
+
+/* Three buttons on a pedal: underside, rotate, delete */
+.item.pedal .actions {
+	width: 100px;
+	margin-left: -48px;
+}
+
+.item .actions a.flip {
+	border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.item .actions a.flip:before {
+	content: "\e150";
+	font-weight: bold;
+}
+
+/* Top view: pedals underneath sit behind the board (seen through its gaps) and can't be touched */
+.canvas .pedal.is-underside {
+	z-index: 0;
+	opacity: 0.45;
+	pointer-events: none;
+	filter: grayscale(1);
+}
+
+/* Flipped over: the underside pedals can be moved; everything on top is faded and fixed */
+.canvas.is-flipped {
+	background-color: #e4e7ec;
+}
+
+.canvas.is-flipped .pedalboard {
+	opacity: 0.45;
+	filter: grayscale(1);
+	pointer-events: none;
+}
+
+.canvas.is-flipped .pedal {
+	opacity: 0.12;
+	filter: grayscale(1);
+	pointer-events: none;
+}
+
+.canvas.is-flipped .pedal.is-underside {
+	z-index: 2;
+	opacity: 1;
+	filter: none;
+	pointer-events: auto;
+}
+
+/* Flipped over: the pedals on top are mirrored too, like the layout; the ones underneath
+   now face you, so they stay as they are. The scale property applies on top of a
+   pedal's rotation, so a rotated pedal mirrors left/right on screen. Custom pedals flip
+   as a whole; their name and buttons are flipped back to stay readable */
+.canvas.is-flipped .pedal:not(.is-underside) .artwork,
+.canvas.is-flipped .pedal--custom:not(.is-underside),
+.canvas.is-flipped .pedal--custom:not(.is-underside) .pedal__name,
+.canvas.is-flipped .pedal--custom:not(.is-underside) .actions {
+	scale: -1 1;
+}
+
+.canvas.is-flipped:before {
+	content: "Underside of the board: only pedals mounted underneath can be moved";
+	position: absolute;
+	top: 12px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 3;
+	padding: 4px 12px;
+	border-radius: 100px;
+	background: #2f2f31;
+	color: white;
+	font-size: 12px;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+/* Header button */
+.site-header nav a.flip-board {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-right: 8px;
+	padding: 6px 12px;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	border-radius: 6px;
+	color: #2f2f31;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+.site-header nav a.flip-board:hover,
+.site-header nav a.flip-board:focus {
+	background: #eeeeee;
+}
+
+.site-header nav a.flip-board.active {
+	background: #5c62fc;
+	border-color: #5c62fc;
+	color: white;
+}
+
+.site-header nav a.flip-board.hide {
+	display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+	.canvas.is-flipped {
+		background-color: #141316;
+	}
+
+	.site-header nav a.flip-board {
+		border-color: rgba(255, 255, 255, 0.2);
+		color: #c9c6d0;
+	}
+
+	.site-header nav a.flip-board:hover,
+	.site-header nav a.flip-board:focus {
+		background: #2e2d32;
+	}
+
+	.site-header nav a.flip-board.active {
+		background: #5c62fc;
+		color: white;
+	}
+}
+
+/* Endpoints: guitars, amps and interfaces off the board */
+.flow-add {
+	display: inline-block;
+}
+
+.flow-add__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 12px 4px 10px;
+	font-size: 12.5px;
+	font-weight: 600;
+	color: #333;
+	background: white;
+	border: 2px dashed rgba(97, 109, 128, 0.5);
+	border-radius: 16px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.flow-add__btn:hover,
+.flow-add.open .flow-add__btn {
+	border-color: #5c62fc;
+	color: #5c62fc;
+}
+
+.flow-add__btn .glyphicon {
+	font-size: 10px;
+}
+
+.flow-add__menu > li > a.flow-add__item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 6px 14px;
+}
+
+.flow-add__item svg,
+.flow-node__icon svg {
+	width: 20px;
+	height: 20px;
+	flex-shrink: 0;
+}
+
+.flow-node__icon {
+	display: inline-flex;
+	vertical-align: middle;
+	margin: -3px 6px -2px 0;
+	color: #5c62fc;
+}
+
+.flow-node--endpoint {
+	border-width: 2px;
+	border-color: rgba(92, 98, 252, 0.45);
+}
+
+.flow-node--endpoint .flow-node__name {
+	padding-right: 30px;
+}
+
+@media (prefers-color-scheme: dark) {
+	.flow-add__btn {
+		color: #eee;
+		background: #232226;
+		border-color: rgba(255, 255, 255, 0.25);
+	}
+	.flow-add__btn:hover,
+	.flow-add.open .flow-add__btn {
+		border-color: #8f93ff;
+		color: #8f93ff;
+	}
+	.flow-node__icon {
+		color: #8f93ff;
+	}
+	.flow-node--endpoint {
+		border-color: rgba(143, 147, 255, 0.5);
+	}
+}
+
+/* Toolbar buttons: optimize layout, undo */
+.flow-tool {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 12px 4px 10px;
+	font-size: 12.5px;
+	font-weight: 600;
+	color: #333;
+	background: white;
+	border: 2px solid rgba(97, 109, 128, 0.35);
+	border-radius: 16px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.flow-tool:hover {
+	border-color: #5c62fc;
+	color: #5c62fc;
+}
+
+.flow-tool .glyphicon {
+	font-size: 10px;
+}
+
+.flow-tool .flip-x {
+	transform: scaleX(-1);
+}
+
+/* A configurable endpoint (the interface) has a cog beside its remove button */
+.flow-node--configurable .flow-node__menu-btn {
+	right: 28px;
+}
+
+.flow-node--configurable .flow-node__name {
+	padding-right: 58px;
+}
+
+.flow-node__options--endpoint .flow-option-title {
+	margin-top: 10px;
+}
+
+.flow-node__options--endpoint .flow-option-title input {
+	width: 56px;
+}
+
+.flow-option-row input.flow-text {
+	flex: 1 1 auto;
+	min-width: 0;
+	height: 24px;
+	padding: 0 6px;
+	font-size: 12px;
+	border: 1px solid rgba(97, 109, 128, 0.35);
+	border-radius: 4px;
+	background: white;
+	color: inherit;
+}
+
+.flow-node__options--endpoint .flow-option-row select {
+	flex: 0 0 116px;
+}
+
+@media (prefers-color-scheme: dark) {
+	.flow-tool {
+		color: #eee;
+		background: #232226;
+		border-color: rgba(255, 255, 255, 0.2);
+	}
+	.flow-tool:hover {
+		border-color: #8f93ff;
+		color: #8f93ff;
+	}
+	.flow-option-row input.flow-text {
+		background: #1b1a1d;
+		border-color: rgba(255, 255, 255, 0.2);
+	}
+}

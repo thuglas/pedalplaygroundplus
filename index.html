@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Pedal Playground</title>
+		<title>Pedal Playground+</title>
 
 		<meta charset="utf-8" />
 		<meta
@@ -9,7 +9,7 @@
 			content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
 		/>
 		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="public/stylesheets/styles.css" />
+		<link rel="stylesheet" href="public/stylesheets/styles.css?v=29" />
 
 		<!-- HTML in your document's head -->
 		<link rel="preconnect" href="https://rsms.me/">
@@ -38,7 +38,7 @@
 		<!-- Facebook Meta Tags -->
 		<meta property="og:url" content="https://pedalplayground.com">
 		<meta property="og:type" content="website">
-		<meta property="og:title" content="Pedal Playground">
+		<meta property="og:title" content="Pedal Playground+">
 		<meta property="og:description" content="PedalPlayground.com is an interactive planning tool for planning your guitar effects pedalboard.">
 		<meta property="og:image" content="https://pedalplayground.com/public/images/social.jpg">
 
@@ -46,7 +46,7 @@
 		<meta name="twitter:card" content="summary_large_image">
 		<meta property="twitter:domain" content="pedalplayground.com">
 		<meta property="twitter:url" content="https://pedalplayground.com">
-		<meta name="twitter:title" content="Pedal Playground">
+		<meta name="twitter:title" content="Pedal Playground+">
 		<meta name="twitter:description" content="PedalPlayground.com is an interactive planning tool for planning your guitar effects pedalboard.">
 		<meta name="twitter:image" content="https://pedalplayground.com/public/images/social.jpg">
 		
@@ -55,10 +55,25 @@
 
 	<body>
 		<header class="site-header">
-			<h1><b>Pedal</b>Playground</h1>
+			<h1><b>Pedal</b>Playground+</h1>
+			<div class="view-tabs" role="tablist">
+				<button type="button" class="view-tab active" data-view="playground" role="tab" aria-selected="true">
+					Pedal Board Layout
+				</button>
+				<button type="button" class="view-tab" data-view="signal-flow" role="tab" aria-selected="false">
+					Signal Flow
+				</button>
+				<button type="button" class="view-tab" data-view="parts-list" role="tab" aria-selected="false">
+					Parts List
+				</button>
+			</div>
 			<nav>
 				<!-- <a href="https://github.com/PedalPlayground/PedalPlayground.github.io/">Change Log</a> 
 				<a href="https://www.paypal.me/travlehman" target="_blank">Donate</a> -->
+				<a href="#" class="flip-board" role="button" aria-pressed="false" title="Flip the board over to see the underside">
+					<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+					<span class="flip-board__text">Flip Board</span>
+				</a>
 				<a style="vertical-align: middle; display: inline-flex" class="settings-trigger" href="#" target="_blank">
 					<svg xmlns="http://www.w3.org/2000/svg" width="27" height="18" fill="none">
 						<rect width="27" height="2" y="3" fill="#2F2F31" rx="1"/>
@@ -79,154 +94,217 @@
 
 				<div class="sidebar__inner">
 					<div class="sidebar__scroll">
-						<div class="sidebar__section">
-							<label class="h4" for="select-a-pedalboard">Add a Pedalboard</label>
-							<form id="add-pedalboard">
-								<p><select id="select-a-pedalboard" class="pedalboard-list form-control"></select></p>
-								<button
-									id="add-selected-pedalboard"
-									class="btn btn-primary btn-block"
-								>
-									Add Pedalboard
-								</button>
-							</form>
-						</div>
-
-						<div class="sidebar__section">
-							<label class="h4" for="select-a-pedal">Add a Pedal</label>
-							<form id="add-pedal">
-								<p><select id="select-a-pedal" class="pedal-list form-control"></select></p>
-								<button id="add-selected-pedal" class="btn btn-primary btn-block">
-									Add Pedal
-								</button>
-							</form>
-						</div>
-
-						<div class="sidebar__section" id="custom-items">
-							<h2 class="h4">Add Custom Item</h2>
-
-							<!-- Nav tabs -->
+						<div class="sidebar__section sidebar-tabs">
 							<ul class="nav nav-tabs" role="tablist">
-								<li role="presentation" class="active">
-									<a
-										href="#custom-pedalboard"
-										aria-controls="home"
-										role="tab"
-										data-toggle="tab"
-										>Pedalboard
-									</a>
-								</li>
-
-								<li role="presentation">
-									<a
-										href="#custom-pedal"
-										aria-controls="profile"
-										role="tab"
-										data-toggle="tab"
-										>Pedal</a
-									>
-								</li>
-
+								<li role="presentation" class="active"><a href="#tab-board" aria-controls="tab-board" role="tab" data-toggle="tab">Board</a></li>
+								<li role="presentation"><a href="#tab-pedal" aria-controls="tab-pedal" role="tab" data-toggle="tab">Pedal</a></li>
+								<li role="presentation"><a href="#tab-custom" aria-controls="tab-custom" role="tab" data-toggle="tab">Custom</a></li>
+								<li role="presentation"><a href="#tab-collection" aria-controls="tab-collection" role="tab" data-toggle="tab">My Collection</a></li>
 							</ul>
 
-							<!-- Tab panes -->
 							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane active" id="custom-pedalboard">
-									<form id="add-custom-pedalboard">
-										<div class="form-element left">
-											<label for="custom-pb-width">Width <em class="units">(inches)</em></label>
-											<input
-												id="custom-pb-width"
-												type="number"
-												class="custom-width form-control"
-												placeholder="24"
-												value=""
-												required
-											/>
-										</div>
-
-										<div class="form-element left">
-											<label for="custom-pb-height">Height <em class="units">(inches)</em></label>
-											<input
-												id="custom-pb-height"
-												type="number"
-												class="custom-height form-control"
-												placeholder="12"
-												value=""
-												required
-											/>
-										</div>
-
-										<input
+								<div role="tabpanel" class="tab-pane active" id="tab-board">
+									<label class="h4" for="select-a-pedalboard">Add a Pedalboard</label>
+									<form id="add-pedalboard">
+										<p><select id="select-a-pedalboard" class="pedalboard-list form-control"></select></p>
+										<button
+											id="add-selected-pedalboard"
 											class="btn btn-primary btn-block"
-											type="submit"
-											name=""
-											value="Add Custom Pedalboard"
-										/>
+										>
+											Add Pedalboard
+										</button>
+										<button type="button" id="collect-selected-pedalboard" class="btn btn-default btn-block btn-collect">
+											Add to My Collection
+										</button>
 									</form>
 								</div>
 
-								<div role="tabpanel" class="tab-pane" id="custom-pedal">
-									<form id="add-custom-pedal">
-										<div class="form-element">
-											<label for="custom-pedal-name">Name <em>(optional)</em></label>
-											<input
-												id="custom-pedal-name"
-												class="custom-name form-control"
-												type="type"
-												name="custom-pedal-name"
-												value=""
-												placeholder="Bozz FM-2 Face Melter"
-											/>
-										</div>
+								<div role="tabpanel" class="tab-pane" id="tab-pedal">
+									<label class="h4" for="select-a-pedal">Add a Pedal</label>
+									<form id="add-pedal">
+										<p><select id="select-a-pedal" class="pedal-list form-control"></select></p>
+										<button id="add-selected-pedal" class="btn btn-primary btn-block">
+											Add Pedal
+										</button>
+										<button type="button" id="collect-selected-pedal" class="btn btn-default btn-block btn-collect">
+											Add to My Collection
+										</button>
+									</form>
+								</div>
 
-										<div class="form-element left">
-											<label for="custom-p-width">Width <em class="units">(inches)</em></label>
-											<input
-												id="custom-p-width"
-												type="number"
-												class="custom-width form-control"
-												placeholder="2.75"
-												value=""
-												required
-											/>
+								<div role="tabpanel" class="tab-pane" id="tab-collection">
+									<div id="my-collection">
+										<div class="collection-header">
+											<h2 class="h4">My Collection <span class="collection-count"></span></h2>
+											<button type="button" id="edit-collection" class="btn btn-default btn-sm" aria-pressed="false">
+												Edit Collection
+											</button>
 										</div>
+										<input
+											id="filter-collection"
+											class="form-control input-sm"
+											type="search"
+											placeholder="Filter my collection"
+										/>
+										<ul class="collection-list"></ul>
+										<p class="collection-empty">
+											Your collection is empty. Click Edit Collection to add the gear you own, or use
+											"Add to My Collection" on the other tabs. Click an item in your collection to add it
+											to the playground.
+										</p>
+										<p class="collection-note"></p>
 
-										<div class="form-element left">
-											<label for="custom-p-height">Height <em class="units">(inches)</em></label>
-											<input
-												id="custom-p-height"
-												type="number"
-												class="custom-height form-control"
-												placeholder="4.25"
-												value=""
-												required
-											/>
+										<!-- Only shown while editing -->
+										<div class="collection-edit-tools">
+											<label class="sr-only" for="select-collection-pedal">Add to my collection</label>
+											<p><select id="select-collection-pedal" class="collection-picker form-control"></select></p>
+											<button type="button" id="import-reverb" class="btn btn-default btn-block btn-collect">
+												Import from Reverb
+											</button>
+											<p class="collection-hint">Uses the CSV file from Reverb's My Collection export.</p>
+											<button type="button" id="reset-collection" class="btn-reset text-danger" data-toggle="modal" data-target="#reset-collection-modal">
+												<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+												Reset Collection
+											</button>
 										</div>
+									</div>
+								</div>
 
-										<div class="form-element">
-											<label for="custom-pedal-color">Color</label>
-											<div class="input-group custom-color-block">
-												<input
-													id="custom-pedal-color"
-													class="custom-color form-control"
-													type="type"
-													name="favcolor"
-													value="#AC203B"
-												/>
-												<span class="input-group-addon">
-													<i class="color-swatch"></i>
-												</span>
+								<div role="tabpanel" class="tab-pane" id="tab-custom">
+									<div id="custom-items">
+										<h2 class="h4">Add Custom Item</h2>
+
+										<!-- Nav tabs -->
+										<ul class="nav nav-tabs" role="tablist">
+											<li role="presentation" class="active">
+												<a
+													href="#custom-pedalboard"
+													aria-controls="home"
+													role="tab"
+													data-toggle="tab"
+													>Pedalboard
+												</a>
+											</li>
+
+											<li role="presentation">
+												<a
+													href="#custom-pedal"
+													aria-controls="profile"
+													role="tab"
+													data-toggle="tab"
+													>Pedal</a
+												>
+											</li>
+
+										</ul>
+
+										<!-- Tab panes -->
+										<div class="tab-content">
+											<div role="tabpanel" class="tab-pane active" id="custom-pedalboard">
+												<form id="add-custom-pedalboard">
+													<div class="form-element left">
+														<label for="custom-pb-width">Width <em class="units">(inches)</em></label>
+														<input
+															id="custom-pb-width"
+															type="number"
+															class="custom-width form-control"
+															placeholder="24"
+															value=""
+															required
+														/>
+													</div>
+
+													<div class="form-element left">
+														<label for="custom-pb-height">Height <em class="units">(inches)</em></label>
+														<input
+															id="custom-pb-height"
+															type="number"
+															class="custom-height form-control"
+															placeholder="12"
+															value=""
+															required
+														/>
+													</div>
+
+													<input
+														class="btn btn-primary btn-block"
+														type="submit"
+														name=""
+														value="Add Custom Pedalboard"
+													/>
+													<button type="button" id="collect-custom-pedalboard" class="btn btn-default btn-block btn-collect">
+														Add to My Collection
+													</button>
+												</form>
+											</div>
+
+											<div role="tabpanel" class="tab-pane" id="custom-pedal">
+												<form id="add-custom-pedal">
+													<div class="form-element">
+														<label for="custom-pedal-name">Name <em>(optional)</em></label>
+														<input
+															id="custom-pedal-name"
+															class="custom-name form-control"
+															type="type"
+															name="custom-pedal-name"
+															value=""
+															placeholder="Bozz FM-2 Face Melter"
+														/>
+													</div>
+
+													<div class="form-element left">
+														<label for="custom-p-width">Width <em class="units">(inches)</em></label>
+														<input
+															id="custom-p-width"
+															type="number"
+															class="custom-width form-control"
+															placeholder="2.75"
+															value=""
+															required
+														/>
+													</div>
+
+													<div class="form-element left">
+														<label for="custom-p-height">Height <em class="units">(inches)</em></label>
+														<input
+															id="custom-p-height"
+															type="number"
+															class="custom-height form-control"
+															placeholder="4.25"
+															value=""
+															required
+														/>
+													</div>
+
+													<div class="form-element">
+														<label for="custom-pedal-color">Color</label>
+														<div class="input-group custom-color-block">
+															<input
+																id="custom-pedal-color"
+																class="custom-color form-control"
+																type="type"
+																name="favcolor"
+																value="#AC203B"
+															/>
+															<span class="input-group-addon">
+																<i class="color-swatch"></i>
+															</span>
+														</div>
+													</div>
+
+													<input
+														class="btn btn-primary btn-block"
+														type="submit"
+														name=""
+														value="Add Custom Pedal"
+													/>
+													<button type="button" id="collect-custom-pedal" class="btn btn-default btn-block btn-collect">
+														Add to My Collection
+													</button>
+												</form>
 											</div>
 										</div>
-
-										<input
-											class="btn btn-primary btn-block"
-											type="submit"
-											name=""
-											value="Add Custom Pedal"
-										/>
-									</form>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -292,8 +370,36 @@
 
 			<!-- sidebar -->
 			<a href="" class="sidebar-open">Toggle Sidebar</a>
-			<div class="canvas">
+			<div class="canvas" data-view-panel="playground">
 				<input id="multiplier" type="hidden" value="32" />
+			</div>
+			<div class="signal-flow hide" data-view-panel="signal-flow">
+				<div class="signal-flow__filters" role="group" aria-label="Show or hide signal types"></div>
+				<div class="signal-flow__surface">
+					<svg class="signal-flow__wires" xmlns="http://www.w3.org/2000/svg"></svg>
+					<div class="signal-flow__nodes"></div>
+				</div>
+				<p class="signal-flow__empty">
+					Add pedals to the playground and they'll appear here. Drag a box to move it,
+					drag from an output to an input to connect two pedals, and click a cable to remove it.
+				</p>
+			</div>
+			<div class="parts-list hide" data-view-panel="parts-list">
+				<div class="parts-list__toolbar">
+					<h2 class="parts-list__title">Parts List</h2>
+					<button type="button" id="export-parts-csv" class="btn btn-default btn-sm">Export CSV</button>
+				</div>
+				<div class="parts-list__sheet">
+					<table class="parts-table">
+						<thead></thead>
+						<tbody></tbody>
+						<tfoot></tfoot>
+					</table>
+				</div>
+				<p class="parts-list__empty">
+					Nothing here yet. Pedalboards and pedals on the playground, and cables drawn in
+					Signal Flow, are listed here.
+				</p>
 			</div>
 			<div class="settings-popover panel hide">
 				<h4>Settings</h4>
@@ -315,12 +421,24 @@
 						Load from File
 					</button>
 				</div>
+
+				<div id="workspace-controls" class="panel__action" style="flex-direction: column;">
+					<p>Workspace (playground, signal flow + My Collection)</p>
+					<button id="save-workspace" class="btn btn-default btn-block">
+						Save Workspace
+					</button>
+					<button id="load-workspace" class="btn btn-default btn-block">
+						Load Workspace
+					</button>
+				</div>
 			</div>
 		</div>
 
+		<!-- Server donation banner, disabled
 		<button id="clear-canvas" class="halp" data-toggle="modal" data-target="#halp-modal">
 			🚧 Help me pay for Pedal Playground's new server!
 		</button>
+		-->
 
 		<div id="clear-canvas-modal" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
@@ -339,7 +457,7 @@
 					</div>
 
 					<div class="modal-body">
-						<div>This will remove all items and start from a clean slate.</div>
+						<div>This will remove all items, including the cables, guitars, amps and interfaces in Signal Flow, and start from a clean slate. My Collection is kept.</div>
 					</div>
 
 					<div class="modal-footer">
@@ -349,6 +467,127 @@
 
 						<button type="button" class="btn btn-danger" id="clear-canvas-confirmation">
 							Reset
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="remove-collection-modal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+
+						<h4 class="modal-title">Remove from My Collection</h4>
+					</div>
+
+					<div class="modal-body">
+						<div>Are you sure you want to remove <strong class="remove-collection-name"></strong> from My Collection?</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							Cancel
+						</button>
+
+						<button type="button" class="btn btn-danger" id="remove-collection-confirm">
+							Remove
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="reset-collection-modal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+
+						<h4 class="modal-title">Reset My Collection</h4>
+					</div>
+
+					<div class="modal-body">
+						<div>
+							This will remove all <strong class="reset-collection-count"></strong> items from My Collection.
+							It doesn't change the playground. This can't be undone unless you've saved a workspace.
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							Cancel
+						</button>
+
+						<button type="button" class="btn btn-danger" id="reset-collection-confirm">
+							Reset Collection
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="flow-choice-modal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title"></h4>
+					</div>
+					<div class="modal-body">
+						<p class="flow-choice__message"></p>
+					</div>
+					<div class="modal-footer flow-choice__buttons"></div>
+				</div>
+			</div>
+		</div>
+
+		<div id="reverb-import-modal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+
+						<h4 class="modal-title">Import from Reverb</h4>
+					</div>
+
+					<div class="modal-body">
+						<p class="reverb-import__summary"></p>
+						<p class="reverb-import__help">
+							Checked items are added to My Collection. Matches are checked for you; review "Possible"
+							matches and check the ones that are right, or choose a match by hand for anything not found.
+						</p>
+						<div class="reverb-import__table-wrap">
+							<table class="reverb-import__table">
+								<thead>
+									<tr>
+										<th><span class="sr-only">Import</span></th>
+										<th>Reverb item</th>
+										<th>Pedal Playground match</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody class="reverb-import__rows"></tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							Cancel
+						</button>
+
+						<button type="button" class="btn btn-primary" id="reverb-import-confirm">
+							Add to My Collection
 						</button>
 					</div>
 				</div>
@@ -415,7 +654,10 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha512-oBTprMeNEKCnqfuqKd6sbvFzmFQtlXS3e0C/RGFV0hD6QzhHV+ODfaQbAlmY6/q0ubbwlAM/nCJjkrgA3waLzg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.2/js/bootstrap-colorpicker.min.js" integrity="sha512-Inb8rvDBBswSGp+fMJmR7y+HgWACE/2m1pj2h1ItXBGt7NbI0llkYIqp7bgzibqom5rSqTt84Cqug9UQV1+e8w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js" integrity="sha512-Y1UCb35/WpQMj8SlTwW43Q+vaROlBiuJ3BBpdF646G4WjXYp417N7OzlmOVWTxOTaiFIZt1CWnby8G9J6u2EoQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<script type="text/javascript" src="public/scripts/scripts.js"></script>
+		<script type="text/javascript" src="public/scripts/scripts.js?v=29"></script>
+		<script type="text/javascript" src="public/scripts/signal-flow.js?v=29"></script>
+		<script type="text/javascript" src="public/scripts/parts-list.js?v=29"></script>
+		<script type="text/javascript" src="public/scripts/reverb-import.js?v=29"></script>
 		
 		<script>
 			(

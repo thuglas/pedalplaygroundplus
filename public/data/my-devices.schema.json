@@ -1,0 +1,100 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Pedal Playground device specifications",
+	"description": "Ports (jacks) of each device, used by the Signal Flow editor and the Parts List.",
+	"type": "object",
+	"required": ["devices"],
+	"properties": {
+		"$schema": { "type": "string" },
+		"about": { "type": "string" },
+		"devices": {
+			"type": "array",
+			"items": { "$ref": "#/definitions/device" }
+		}
+	},
+	"definitions": {
+		"device": {
+			"type": "object",
+			"required": ["key", "brand", "name", "subcategory", "ports"],
+			"additionalProperties": false,
+			"properties": {
+				"key": {
+					"type": "string",
+					"description": "Catalog key: the image filename from pedals.json, plus \"~Name\" when two pedals share an image (as in My Collection)."
+				},
+				"brand": { "type": "string" },
+				"name": { "type": "string" },
+				"subcategory": {
+					"description": "What kind of device this is. \"Power Supply\" makes it a power supply in Signal Flow and the Parts List.",
+					"enum": ["Effect", "Power Supply", "Tuner", "Multi-effect", "Expression/Volume", "Controller", "MIDI Interface", "Utility", "Looper", "Preamp"]
+				},
+				"verified": {
+					"type": "boolean",
+					"description": "false while the ports are still the generic placeholders; set to true once they match the real device."
+				},
+				"notes": { "type": "string" },
+				"sources": {
+					"type": "array",
+					"items": { "type": "string", "format": "uri" },
+					"description": "Where the port and power details came from (manufacturer pages, manuals, spec sheets)."
+				},
+				"ports": {
+					"type": "array",
+					"items": { "$ref": "#/definitions/port" }
+				}
+			}
+		},
+		"port": {
+			"type": "object",
+			"required": ["id", "label", "type", "direction"],
+			"additionalProperties": false,
+			"properties": {
+				"id": {
+					"type": "string",
+					"description": "Unique within the device; cables in saved workspaces refer to it, so avoid renaming it once used."
+				},
+				"label": { "type": "string", "description": "Shown on the box in Signal Flow, e.g. \"In L\", \"Send\", \"EXP\"." },
+				"type": {
+					"description": "Signal type. A jack that carries two types (e.g. a MIDI/EXP jack) lists both, most common first.",
+					"oneOf": [
+						{ "$ref": "#/definitions/signalType" },
+						{ "type": "array", "items": { "$ref": "#/definitions/signalType" }, "minItems": 1, "maxItems": 2 }
+					]
+				},
+				"direction": {
+					"description": "in, out, or both (e.g. USB, MIDI through/combined jacks). A pedal's power input is listed as in.",
+					"enum": ["in", "out", "both"]
+				},
+				"side": {
+					"description": "Where the jack is drawn. Default: power and MIDI on the bottom, other inputs left, other outputs right.",
+					"enum": ["left", "right", "bottom"]
+				},
+				"connector": {
+					"type": "string",
+					"description": "Plug type. Audio and CTRL jacks use \"TS\" (mono) or \"TRS\" (stereo); connecting TRS to TS offers a Y cable. Others are free text, e.g. \"5-pin DIN\", \"USB-C\", \"XLR\", \"2.1mm barrel, center negative\".",
+					"examples": ["TS", "TRS", "5-pin DIN", "3.5mm TRS", "USB-C", "USB-B", "XLR", "2.1mm barrel, center negative", "2.5mm barrel"]
+				},
+				"voltage": {
+					"type": "number",
+					"description": "Power jacks only. Volts the pedal needs, or a supply output provides (DC)."
+				},
+				"current": {
+					"type": "number",
+					"description": "Power jacks only. mA the pedal draws, or the most a supply output can provide."
+				},
+				"voltageOptions": {
+					"type": "array",
+					"items": { "type": "number" },
+					"description": "Supply outputs only. Voltages the output's switch can select; leave empty for a fixed output."
+				},
+				"currentByVoltage": {
+					"type": "object",
+					"additionalProperties": { "type": "number" },
+					"description": "Switchable supply outputs only. mA available at each switch position, when it drops at higher voltages, e.g. {\"9\": 500, \"12\": 275, \"18\": 250}.",
+					"examples": [{ "9": 500, "12": 275, "18": 250 }]
+				}
+			}
+		},
+		"signalType": { "enum": ["audio", "power", "midi", "ctrl"] }
+	}
+}

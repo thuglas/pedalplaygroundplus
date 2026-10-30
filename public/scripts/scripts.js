@@ -4,6 +4,11 @@ var units = 'in';
 
 $(document).ready(function () {
 
+	// Restore My Collection (re-saving refreshes the cookie's expiry)
+	myCollection = readCollection();
+	saveCollection();
+	$("#filter-collection").toggle(myCollection.length > 0);
+
 	// Populate Pedalboards and Pedals lists
 	GetPedalData();
 	GetPedalBoardData();
@@ -25,6 +30,25 @@ $(document).ready(function () {
 		placeholder: "Select a pedalboard",
 		width: "style",
 	});
+
+	// Styled right away to match the lists above; filled in once pedal data loads
+	$(".collection-picker").select2({
+		placeholder: "Add to my collection",
+		width: "style",
+	});
+
+	// Remember the sidebar tab between visits
+	var $sidebarTabs = $('.sidebar-tabs > .nav-tabs a[data-toggle="tab"]');
+	$sidebarTabs.on("shown.bs.tab", function (e) {
+		try {
+			localStorage["sidebarTab"] = $(e.target).attr("href");
+		} catch (err) {}
+	});
+	try {
+		if (localStorage["sidebarTab"]) {
+			$sidebarTabs.filter('[href="' + localStorage["sidebarTab"] + '"]').tab("show");
+		}
+	} catch (err) {}
 
 	$(".pedalboard-list").on("select2:select", function (e) {
 		$("#add-selected-pedalboard").click();
@@ -52,10 +76,14 @@ $(document).ready(function () {
 		// Set canvas scale input and bg size to match scale
 		$("#canvas-scale").val(multiplier);
 		$(".canvas").css("background-size", multiplier + "px");
+
+		restoreBoardFlipped();
 	});
 
 	$("#convert-units").on( "change", function() {
 		convertUnits();
+		renderCollection();
+		$(document).trigger("playgroundchange");
 	});
 
 	// When user changes scale, update stuffs
@@ -130,20 +158,122 @@ $(document).ready(function () {
 	$("body").on("click", "#clear-canvas-confirmation", function () {
 		$(".canvas").empty();
 		$("#clear-canvas-modal").modal("hide");
+		// Signal Flow starts over too (its endpoints and Y cables aren't on the canvas);
+		// only the signal type filters are kept
+		if (window.SignalFlow) SignalFlow.setState({ hidden: SignalFlow.getState().hidden });
 		savePedalCanvas();
 	});
 
-	$("body").on("click", "#add-pedal button", function (event) {
+	$("body").on("click", "#add-selected-pedal", function (event) {
+		var selected = $("#add-pedal").find(":selected");
+		addPedalToCanvas(
+			$(selected).text(),
+			$(selected).attr("id"),
+			$(selected).data("width"),
+			$(selected).data("height"),
+			$(selected).data("image")
+		);
+		event.preventDefault();
+	});
+
+	$("body").on("click", "#collect-selected-pedal", function (event) {
+		collectSelected(this, $("#add-pedal").find(":selected"));
+		event.preventDefault();
+	});
+
+	$("body").on("click", "#collect-selected-pedalboard", function (event) {
+		collectSelected(this, $("#add-pedalboard").find(":selected"));
+		event.preventDefault();
+	});
+
+	function collectSelected(button, $option) {
+		var key = $option.data("key");
+		if (!key) {
+			flashButton(button, "Select one first");
+			return;
+		}
+		addToCollection(key);
+		flashButton(button, "Added to My Collection ✓");
+	}
+
+	// Add an item to the playground from My Collection
+	$("body").on("click", ".collection-item__add", function (event) {
+		var item = resolveCollectionItem($(this).closest(".collection-item").data("key"));
+		if (item && item.status === "ok") {
+			switch (item.kind) {
+				case "pedal":
+					addPedalToCanvas(item.label, undefined, item.width, item.height, item.image);
+					break;
+				case "board":
+					addPedalboardToCanvas(item.label, undefined, item.width, item.height, item.image);
+					break;
+				case "custom-pedal":
+					addCustomPedalToCanvas(item.name, item.width, item.height, item.color);
+					break;
+				case "custom-board":
+					addCustomPedalboardToCanvas(item.width, item.height);
+					break;
+			}
+		}
+		event.preventDefault();
+		event.stopPropagation();
+	});
+
+	// Edit mode shows the remove buttons, the picker and the Reverb import
+	$("body").on("click", "#edit-collection", function (event) {
+		var editing = !$("#my-collection").hasClass("is-editing");
+		$("#my-collection").toggleClass("is-editing", editing);
+		$(this)
+			.text(editing ? "Done" : "Edit Collection")
+			.attr("aria-pressed", editing)
+			.toggleClass("btn-primary", editing)
+			.toggleClass("btn-default", !editing);
+		event.preventDefault();
+	});
+
+	// Removing asks first
+	$("body").on("click", ".collection-item__remove", function (event) {
+		var key = $(this).closest(".collection-item").data("key");
+		$(".remove-collection-name").text(resolveCollectionItem(key).label);
+		$("#remove-collection-confirm").data("key", key);
+		$("#remove-collection-modal").modal("show");
+		event.preventDefault();
+		event.stopPropagation();
+	});
+
+	$("body").on("click", "#remove-collection-confirm", function () {
+		removeFromCollection($(this).data("key"));
+		$("#remove-collection-modal").modal("hide");
+	});
+
+	$("#reset-collection-modal").on("show.bs.modal", function () {
+		$(".reset-collection-count").text(myCollection.length);
+	});
+
+	$("body").on("click", "#reset-collection-confirm", function () {
+		setCollection([]);
+		$("#reset-collection-modal").modal("hide");
+	});
+
+	$("body").on("input", "#filter-collection", function () {
+		renderCollection();
+	});
+
+	$("body").on("click", "#save-workspace", function (e) {
+		const currentDate = new Date().toLocaleDateString() + new Date().toLocaleTimeString();
+
+		downloadWorkspace("Pedal Playground Workspace - " + currentDate + ".json");
+	});
+
+	$("body").on("click", "#load-workspace", function (e) {
+		uploadWorkspace();
+	});
+
+	function addPedalToCanvas(name, shortname, width, height, i) {
 		var multiplier = $("#canvas-scale").val();
 		var serial = GenRandom.Job();
-		var selected = $("#add-pedal").find(":selected");
-		var name = $(selected).text();
-		var shortname = $(selected).attr("id");
-		var width = $(selected).data("width");
-		var height = $(selected).data("height");
-		var scaledWidth = $(selected).data("width") * multiplier;
-		var scaledHeight = $(selected).data("height") * multiplier;
-		var i = $(selected).data("image");
+		var scaledWidth = width * multiplier;
+		var scaledHeight = height * multiplier;
 		var pedal =
 			'\
 <div id="item-' +
@@ -169,27 +299,34 @@ $(document).ready(function () {
 			')"></div>\
 	<div class="shadow"></div>\
 	<div class="actions">\
+		<a class="flip"></a>\
 		<a class="rotate"></a>\
 		<a class="delete"></a>\
 	</div>\
 </div>';
 		$(".canvas").append(pedal);
+		placeNewPedal("#item-" + serial);
 		readyCanvas();
 		ga("send", "event", "Pedal", "added", name);
+	}
+
+	$("body").on("click", "#add-selected-pedalboard", function (event) {
+		var selected = $("#add-pedalboard").find(":selected");
+		addPedalboardToCanvas(
+			$(selected).text(),
+			$(selected).attr("id"),
+			$(selected).data("width"),
+			$(selected).data("height"),
+			$(selected).data("image")
+		);
 		event.preventDefault();
 	});
 
-	$("body").on("click", "#add-pedalboard button", function (event) {
+	function addPedalboardToCanvas(name, shortname, width, height, i) {
 		var serial = GenRandom.Job();
 		var multiplier = $("#canvas-scale").val();
-		var selected = $("#add-pedalboard").find(":selected");
-		var name = $(selected).text();
-		var shortname = $(selected).attr("id");
-		var width = $(selected).data("width");
-		var height = $(selected).data("height");
-		var scaledWidth = $(selected).data("width") * multiplier;
-		var scaledHeight = $(selected).data("height") * multiplier;
-		var i = $(selected).data("image");
+		var scaledWidth = width * multiplier;
+		var scaledHeight = height * multiplier;
 		var pedal =
 			'\
 <div id="item-' +
@@ -222,25 +359,60 @@ $(document).ready(function () {
 		$(".canvas").prepend(pedal);
 		readyCanvas();
 		ga("send", "event", "Pedalboard", "added", name);
-		event.preventDefault();
-	});
+	}
 
 	// Activate color picker plugin on custom color field
 	$(".custom-color-block").colorpicker({
 		color: "#41C74D",
 	});
 
+	// Read and validate the custom item forms; returns null (and flags the fields) when incomplete
+	function readCustomForm(formId) {
+		var $form = $(formId);
+		var rawWidth = $form.find(".custom-width").val();
+		var rawHeight = $form.find(".custom-height").val();
+
+		$form.find(".invalid").removeClass("invalid");
+
+		if (rawWidth == "" || rawHeight == "") {
+			if (rawWidth == "") $form.find(".custom-width").addClass("invalid");
+			if (rawHeight == "") $form.find(".custom-height").addClass("invalid");
+			$form.find(rawWidth == "" ? ".custom-width" : ".custom-height").focus();
+			return null;
+		}
+
+		return {
+			width: convertUnitsIfNeeded("down", rawWidth),
+			height: convertUnitsIfNeeded("down", rawHeight),
+			name: $form.find(".custom-name").val() || "",
+			color: $form.find(".custom-color").val() || "",
+		};
+	}
+
 	// Add custom pedal
-	$("body").on("click", "#add-custom-pedal .btn", function (event) {
+	$("body").on("click", "#add-custom-pedal .btn-primary", function (event) {
+		var custom = readCustomForm("#add-custom-pedal");
+		if (custom) {
+			addCustomPedalToCanvas(custom.name, custom.width, custom.height, custom.color);
+			event.preventDefault();
+		}
+	});
+
+	$("body").on("click", "#collect-custom-pedal", function (event) {
+		var custom = readCustomForm("#add-custom-pedal");
+		if (custom) {
+			addToCollection(customPedalKey(custom.width, custom.height, custom.color, custom.name));
+			flashButton(this, "Added to My Collection ✓");
+		}
+		event.preventDefault();
+	});
+
+	function addCustomPedalToCanvas(name, width, height, image) {
 		var serial = GenRandom.Job();
 		var multiplier = $("#canvas-scale").val();
-		var width = convertUnitsIfNeeded("down", $("#add-custom-pedal .custom-width").val() );
-		var height = convertUnitsIfNeeded("down", $("#add-custom-pedal .custom-height").val() );
 		var scaledWidth = width * multiplier;
 		var scaledHeight = height * multiplier;
 		var dims = width + '" x ' + height + '"';
-		var name = $("#add-custom-pedal .custom-name").val();
-		var image = $("#add-custom-pedal .custom-color").val();
 		var pedal =
 			'\
 <div id="item-' +
@@ -271,82 +443,73 @@ $(document).ready(function () {
 	<span class="pedal__led"></span>\
 	<span class="pedal__switch"></span>\
 	<div class="actions">\
+		<a class="flip"></a>\
 		<a class="rotate"></a>\
 		<a class="delete"></a>\
 	</div>\
 </div>';
 
-		$("#add-custom-pedal .invalid").removeClass("invalid");
+		$(".canvas").append(pedal);
+		placeNewPedal("#item-" + serial);
+		readyCanvas();
+		ga("send", "event", "CustomPedal", "added", dims + " " + name);
+	}
 
-		if (width == "" || height == "") {
-			$("#add-custom-pedal .custom-height, #add-custom-pedal .custom-width").addClass(
-				"invalid"
-			);
-			$("#add-custom-pedal .custom-width").focus();
-		} else if (width == "") {
-			$("#add-custom-pedal .custom-width").addClass("invalid").focus();
-		} else if (height == "") {
-			$("#add-custom-pedal .custom-height").addClass("invalid").focus();
-		} else {
-			//console.log("add custom pedal...");
-			$(".canvas").append(pedal);
-			readyCanvas();
-			// console.log(dims);
-			ga("send", "event", "CustomPedal", "added", dims + " " + name);
+	// Add custom pedalboard
+	$("body").on("click", "#add-custom-pedalboard .btn-primary", function (event) {
+		var custom = readCustomForm("#add-custom-pedalboard");
+		if (custom) {
+			addCustomPedalboardToCanvas(custom.width, custom.height);
 			event.preventDefault();
 		}
 	});
 
-	// Add custom pedalboard
-	$("body").on("click", "#add-custom-pedalboard .btn", function (event) {
+	$("body").on("click", "#collect-custom-pedalboard", function (event) {
+		var custom = readCustomForm("#add-custom-pedalboard");
+		if (custom) {
+			addToCollection(customPedalboardKey(custom.width, custom.height));
+			flashButton(this, "Added to My Collection ✓");
+		}
+		event.preventDefault();
+	});
+
+	function addCustomPedalboardToCanvas(width, height) {
 		var serial = GenRandom.Job();
 		var multiplier = $("#canvas-scale").val();
-		var width = convertUnitsIfNeeded('down', $("#add-custom-pedalboard .custom-width").val());
-		var height = convertUnitsIfNeeded('down',$("#add-custom-pedalboard .custom-height").val());
 		var scaledWidth = width * multiplier;
 		var scaledHeight = height * multiplier;
-
-		$("#add-custom-pedalboard .invalid").removeClass("invalid");
-
-		if (width == "" || height == "") {
-			$(
-				"#add-custom-pedalboard .custom-height, #add-custom-pedalboard .custom-width"
-			).addClass("invalid");
-			$("#add-custom-pedalboard .custom-width").focus();
-		} else if (width == "") {
-			$("#add-custom-pedalboard .custom-width").addClass("invalid").focus();
-		} else if (height == "") {
-			$("#add-custom-pedalboard .custom-height").addClass("invalid").focus();
-		} else {
-			//console.log("add custom pedalboard...");
-			var dims = width + '" x ' + height + '"';
-			var pedalboard =
-				'<div id="item-' +
-				serial +
-				'" class="item pedalboard pedalboard--custom" style="width:' +
-				scaledWidth +
-				"px;height:" +
-				scaledHeight +
-				"px; border-width:" +
-				multiplier / 2 +
-				'px" title="Custom Pedalboard" data-width="' +
-				width +
-				'" data-height="' +
-				height +
-				'" data-scale="' +
-				multiplier +
-				'">\
+		var dims = width + '" x ' + height + '"';
+		var pedalboard =
+			'<div id="item-' +
+			serial +
+			'" class="item pedalboard pedalboard--custom" style="width:' +
+			scaledWidth +
+			"px;height:" +
+			scaledHeight +
+			"px; border-width:" +
+			multiplier / 2 +
+			'px" title="Custom Pedalboard" data-width="' +
+			width +
+			'" data-height="' +
+			height +
+			'" data-scale="' +
+			multiplier +
+			'">\
 			<div class="actions">\
 			<a class="delete"></a>\
 			<a class="rotate"></a>\
 			</div>\
 			</div>';
 
-			$(".canvas").prepend(pedalboard);
-			readyCanvas();
-			ga("send", "event", "CustomPedalboard", "added", dims + " " + name);
-			event.preventDefault();
-		}
+		$(".canvas").prepend(pedalboard);
+		readyCanvas();
+		ga("send", "event", "CustomPedalboard", "added", dims);
+	}
+
+	// Typing in a text box or menu isn't a keyboard shortcut. jQuery runs this delegated
+	// handler before the shortcuts bound directly on body below, and stops them.
+	$("body").on("keydown keyup", "input, textarea, select, [contenteditable]", function (event) {
+		event.stopImmediatePropagation();
 	});
 
 	// On keydown of "D" or "delete" remove pedal
@@ -469,6 +632,14 @@ function convertIn(value) {
 function readyCanvas() {
 	//console.log("canvas ready!");
 
+	// Pedals saved before the underside existed get its button too
+	$(".canvas .pedal .actions").each(function () {
+		if (!$(this).find(".flip").length) $(this).prepend('<a class="flip"></a>');
+	});
+	$(".canvas .pedal").each(function () {
+		updateFlipButton($(this));
+	});
+
 	var $draggable = $(".canvas .pedal, .canvas .pedalboard").draggabilly({
 		containment: ".canvas",
 	});
@@ -525,6 +696,10 @@ function readyCanvas() {
 			deletePedal(this);
 			deselect();
 			$("body").click();
+		} else if (target.is(".flip")) {
+			event.stopPropagation();
+			event.stopImmediatePropagation();
+			toggleUnderside($(this));
 		} else if (target.is(".rotate")) {
 			event.stopPropagation();
 
@@ -552,7 +727,9 @@ function readyCanvas() {
 
 function savePedalCanvas() {
 	//console.log("Canvas Saved!");
-	localStorage["pedalCanvas"] = JSON.stringify($(".canvas").html());
+	localStorage["pedalCanvas"] = JSON.stringify(canvasHtml());
+	// Lets the Signal Flow and Parts List views keep up with the playground
+	$(document).trigger("playgroundchange");
 	// readyCanvas();
 }
 
@@ -598,6 +775,7 @@ function importPedalCanvas(file) {
 
 			// TODO: check source and version
 
+			setBoardFlipped(false);
 			$(".canvas").html(blob.canvas);
 			readyCanvas();
 		},
@@ -634,6 +812,110 @@ function rotatePedal(pedal) {
 	savePedalCanvas();
 }
 
+// ------------------------------------------------------------------------------------
+// Underside of the board
+// Pedals can be mounted under the pedalboard (class "is-underside"). Normally they show
+// faintly and can't be touched; flipping the board over shows the underside, where only
+// those pedals can be moved. Flipping mirrors the layout left to right, as turning the
+// board over would. Whether the board is flipped is a view setting: the canvas is always
+// saved the right way up.
+
+function isBoardFlipped() {
+	return $(".canvas").hasClass("is-flipped");
+}
+
+// The line the layout is mirrored about: the middle of the pedalboards (so they stay
+// put), or of everything when there's no board
+function mirrorAxis() {
+	var $items = $(".canvas .pedalboard");
+	if (!$items.length) $items = $(".canvas .item");
+	if (!$items.length) return null;
+	var left = Infinity;
+	var right = -Infinity;
+	$items.each(function () {
+		var x = parseFloat($(this).css("left")) || 0;
+		left = Math.min(left, x);
+		right = Math.max(right, x + itemWidth(this));
+	});
+	return (left + right) / 2;
+}
+
+function itemWidth(item) {
+	return item.offsetWidth || ($(item).data("width") || 0) * ($(item).attr("data-scale") || 0);
+}
+
+function mirroredLeft(item, axis) {
+	return Math.round(2 * axis - (parseFloat($(item).css("left")) || 0) - itemWidth(item));
+}
+
+function mirrorCanvas() {
+	var axis = mirrorAxis();
+	if (axis === null) return;
+	$(".canvas .item").each(function () {
+		$(this).css("left", mirroredLeft(this, axis));
+	});
+}
+
+// The canvas markup the right way up, for saving
+function canvasHtml() {
+	if (!isBoardFlipped()) return $(".canvas").html();
+	var axis = mirrorAxis();
+	var $copy = $(".canvas").clone();
+	$(".canvas .item").each(function () {
+		$copy.find("#" + this.id).css("left", mirroredLeft(this, axis));
+	});
+	return $copy.html();
+}
+
+function setBoardFlipped(flipped) {
+	$(".canvas .item-info, .item-info").remove();
+	$(".canvas .selected, .canvas .group-selected").removeClass("selected group-selected");
+	if (flipped !== isBoardFlipped()) mirrorCanvas();
+	$(".canvas").toggleClass("is-flipped", flipped);
+	$(".flip-board")
+		.toggleClass("active", flipped)
+		.attr("aria-pressed", flipped)
+		.attr("title", flipped ? "Turn the board back over to the top" : "Flip the board over to see the underside")
+		.find(".flip-board__text")
+		.text(flipped ? "Underside" : "Flip Board");
+	try {
+		localStorage["boardFlipped"] = flipped ? "1" : "";
+	} catch (err) {}
+}
+
+function updateFlipButton($pedal) {
+	$pedal
+		.find(".actions .flip")
+		.attr("title", $pedal.hasClass("is-underside") ? "Move to the top of the board" : "Move to the underside of the board");
+}
+
+function toggleUnderside($pedal) {
+	$pedal.toggleClass("is-underside").removeClass("selected group-selected");
+	$(".item-info").remove();
+	updateFlipButton($pedal);
+	savePedalCanvas();
+}
+
+// Pedals added while looking at the underside are mounted there
+function placeNewPedal(selector) {
+	if (isBoardFlipped()) $(selector).addClass("is-underside");
+}
+
+// Called once the saved canvas has loaded
+function restoreBoardFlipped() {
+	var flipped = false;
+	try {
+		flipped = localStorage["boardFlipped"] === "1";
+	} catch (err) {}
+	setBoardFlipped(flipped);
+}
+
+$("body").on("click", ".flip-board", function (e) {
+	setBoardFlipped(!isBoardFlipped());
+	e.preventDefault();
+	e.stopPropagation();
+});
+
 function deletePedal(pedal) {
 	$(pedal).remove();
 	deselect();
@@ -651,6 +933,350 @@ function deleteSelected() {
 	$(".canvas .selected, .canvas .group-selected").remove();
 	$(".canvas .panel").remove();
 	savePedalCanvas();
+}
+
+// ------------------------------------------------------------------------------------
+// My Collection
+// Items are stored as short keys:
+//   pedal          image filename (plus "~name" when two pedals share an image)
+//   pedalboard     "b:" + the same, from the pedalboard list
+//   custom pedal   "cp:" + width~height~color~name (inches)
+//   custom board   "cb:" + width~height (inches)
+// in a cookie, with localStorage as a fallback when the cookie would be too large.
+
+var COLLECTION_COOKIE = "myCollection";
+var COLLECTION_COOKIE_MAX = 3800; // browsers cap a cookie at ~4KB
+var myCollection = [];
+var pedalIndex = {};
+var pedalboardIndex = {};
+var pedalDataLoaded = false;
+var pedalboardDataLoaded = false;
+
+// Give each pedal / pedalboard a stable Key for collections
+function assignKeys(items) {
+	var imageCounts = {};
+	items.forEach(function (item) {
+		imageCounts[item.Image] = (imageCounts[item.Image] || 0) + 1;
+	});
+	items.forEach(function (item) {
+		item.Key = imageCounts[item.Image] > 1 ? item.Image + "~" + item.Name : item.Image;
+	});
+}
+
+function customPedalKey(width, height, color, name) {
+	return "cp:" + [width, height, (color || "").replace(/^#/, ""), name || ""].join("~");
+}
+
+function customPedalboardKey(width, height) {
+	return "cb:" + width + "~" + height;
+}
+
+// Size in the units chosen in Settings
+function formatSize(width, height) {
+	var unit = $("#convert-units").is(":checked") ? " mm" : '"';
+	return convertUnitsIfNeeded("up", width) + unit + " x " + convertUnitsIfNeeded("up", height) + unit;
+}
+
+// Everything needed to show a collection key and add it to the playground.
+// status is "ok", "pending" (its list hasn't loaded yet) or "missing" (no longer in the list).
+function resolveCollectionItem(key) {
+	var parts;
+	if (key.indexOf("cp:") === 0) {
+		parts = key.slice(3).split("~");
+		return {
+			status: "ok",
+			kind: "custom-pedal",
+			width: parseFloat(parts[0]),
+			height: parseFloat(parts[1]),
+			color: parts[2] ? "#" + parts[2] : "",
+			name: parts.slice(3).join("~"),
+			label: parts.slice(3).join("~") || "Custom Pedal",
+			detail: "Custom pedal · " + formatSize(parts[0], parts[1]),
+		};
+	}
+	if (key.indexOf("cb:") === 0) {
+		parts = key.slice(3).split("~");
+		return {
+			status: "ok",
+			kind: "custom-board",
+			width: parseFloat(parts[0]),
+			height: parseFloat(parts[1]),
+			label: "Custom Pedalboard",
+			detail: "Custom board · " + formatSize(parts[0], parts[1]),
+		};
+	}
+
+	var isBoard = key.indexOf("b:") === 0;
+	var entry = isBoard ? pedalboardIndex[key.slice(2)] : pedalIndex[key];
+	if (!entry) {
+		var loaded = isBoard ? pedalboardDataLoaded : pedalDataLoaded;
+		return { status: loaded ? "missing" : "pending", label: isBoard ? key.slice(2) : key, detail: "" };
+	}
+	return {
+		status: "ok",
+		kind: isBoard ? "board" : "pedal",
+		label: entry.Brand + " " + entry.Name,
+		detail: isBoard ? "Pedalboard · " + formatSize(entry.Width, entry.Height) : "",
+		width: entry.Width,
+		height: entry.Height,
+		image: entry.Image,
+		thumb: (isBoard ? pedalboardImagePath : pedalImagePath) + entry.Image,
+	};
+}
+
+function readCollection() {
+	var match = document.cookie.match(new RegExp("(?:^|;\\s*)" + COLLECTION_COOKIE + "=([^;]*)"));
+	if (match) {
+		return match[1] ? match[1].split("|").map(decodeURIComponent) : [];
+	}
+	try {
+		var saved = JSON.parse(localStorage[COLLECTION_COOKIE] || "[]");
+		return Array.isArray(saved) ? saved : [];
+	} catch (e) {
+		return [];
+	}
+}
+
+function saveCollection() {
+	var value = myCollection.map(encodeURIComponent).join("|");
+	var maxAge = 60 * 60 * 24 * 400; // 400 days, the longest browsers allow
+
+	try {
+		localStorage[COLLECTION_COOKIE] = JSON.stringify(myCollection);
+	} catch (e) {}
+
+	if (value.length > COLLECTION_COOKIE_MAX) {
+		// Too big for a cookie: drop it so readCollection() falls back to localStorage
+		document.cookie = COLLECTION_COOKIE + "=; max-age=0; path=/";
+		$(".collection-note").text("Collection is too large for a cookie, so it's saved in this browser's local storage instead.").show();
+	} else {
+		document.cookie = COLLECTION_COOKIE + "=" + value + "; max-age=" + maxAge + "; path=/; SameSite=Lax";
+		$(".collection-note").hide();
+	}
+}
+
+function setCollection(keys) {
+	myCollection = keys.filter(function (key, i) {
+		return typeof key === "string" && keys.indexOf(key) === i;
+	});
+	saveCollection();
+	renderCollection();
+}
+
+function addToCollection(key) {
+	if (myCollection.indexOf(key) === -1) {
+		setCollection(myCollection.concat([key]));
+	}
+}
+
+function removeFromCollection(key) {
+	setCollection(myCollection.filter(function (k) {
+		return k !== key;
+	}));
+}
+
+// Briefly swap a button's text to confirm an action
+function flashButton(button, text) {
+	var $button = $(button);
+	if ($button.data("label") === undefined) $button.data("label", $button.html());
+	$button.text(text).addClass("is-flashed");
+	clearTimeout($button.data("flashTimer"));
+	$button.data("flashTimer", setTimeout(function () {
+		$button.html($button.data("label")).removeClass("is-flashed");
+	}, 1500));
+}
+
+function initCollection(pedals) {
+	// Build a searchable picker of every pedal, grouped by brand
+	var groups = [];
+	pedals.forEach(function (pedal) {
+		pedalIndex[pedal.Key] = pedal;
+		var group = groups[groups.length - 1];
+		if (!group || group.text !== pedal.Brand) {
+			group = { text: pedal.Brand, children: [] };
+			groups.push(group);
+		}
+		group.children.push({ id: pedal.Key, text: pedal.Brand + " " + pedal.Name });
+	});
+	pedalDataLoaded = true;
+
+	$(".collection-picker")
+		.select2("destroy")
+		.select2({
+			placeholder: "Add to my collection",
+			width: "style",
+			data: groups,
+			templateResult: function (item) {
+				if (item.id && myCollection.indexOf(item.id) !== -1) {
+					return $("<span>").text(item.text + "  ✓");
+				}
+				return item.text;
+			},
+		})
+		.val(null)
+		.trigger("change")
+		.on("select2:select", function (e) {
+			addToCollection(e.params.data.id);
+			$(this).val(null).trigger("change");
+		});
+
+	renderCollection();
+}
+
+function initPedalboardCollection(pedalboards) {
+	pedalboards.forEach(function (pedalboard) {
+		pedalboardIndex[pedalboard.Key] = pedalboard;
+	});
+	pedalboardDataLoaded = true;
+	renderCollection();
+}
+
+var COLLECTION_KIND_ORDER = { board: 0, "custom-board": 1, pedal: 2, "custom-pedal": 3 };
+
+function kindOrder(item) {
+	return item.kind in COLLECTION_KIND_ORDER ? COLLECTION_KIND_ORDER[item.kind] : 9;
+}
+
+function renderCollection() {
+	var filter = ($("#filter-collection").val() || "").toLowerCase();
+	var $list = $(".collection-list").empty();
+
+	var items = myCollection.map(function (key) {
+		var item = resolveCollectionItem(key);
+		item.key = key;
+		return item;
+	});
+	// Boards first, then pedals; alphabetical within each
+	items.sort(function (a, b) {
+		var kind = kindOrder(a) - kindOrder(b);
+		if (kind) return kind;
+		return a.label.toLowerCase() < b.label.toLowerCase() ? -1 : 1;
+	});
+
+	items.forEach(function (item) {
+		var text = item.label + " " + item.detail;
+		if (filter && text.toLowerCase().indexOf(filter) === -1) return;
+
+		var $item = $('<li class="collection-item">').attr("data-key", item.key);
+		var $text = $('<span class="collection-item__text">').append($("<span>").text(item.label));
+		if (item.detail) {
+			$text.append($("<small>").text(item.detail));
+		}
+
+		if (item.status === "ok") {
+			var $thumb;
+			if (item.thumb) {
+				$thumb = $('<img alt="">').attr("src", item.thumb);
+			} else {
+				$thumb = $('<span class="collection-item__swatch">').addClass("collection-item__swatch--" + item.kind);
+				if (item.color) $thumb.css("background-color", item.color);
+			}
+			$('<a href="#" class="collection-item__add" title="Add to playground">')
+				.append($thumb, $text)
+				.appendTo($item);
+		} else {
+			$('<span class="collection-item__missing">')
+				.toggleClass("is-pending", item.status === "pending")
+				.attr("title", item.status === "pending" ? "Loading…" : "No longer in the list")
+				.append($text)
+				.appendTo($item);
+		}
+		$('<button type="button" class="collection-item__remove" title="Remove from collection">&times;</button>').appendTo($item);
+		$item.appendTo($list);
+	});
+
+	$(".collection-count").text(myCollection.length ? "(" + myCollection.length + ")" : "");
+	$(".collection-empty").toggle(myCollection.length === 0);
+	$("#filter-collection").toggle(myCollection.length > 0);
+}
+
+// ------------------------------------------------------------------------------------
+// Workspace: the playground, My Collection and settings in one file
+
+function exportWorkspace() {
+	return new Blob(
+		[ JSON.stringify(
+			{
+				source: "pedalplayground.com",
+				type: "workspace",
+				version: "1.0",
+				canvas: JSON.parse(localStorage["pedalCanvas"] || '""'),
+				collection: myCollection,
+				signalFlow: window.SignalFlow ? SignalFlow.getState() : undefined,
+				settings: {
+					useMm: $("#convert-units").is(":checked"),
+				},
+			}
+		)],
+		{ type: "application/json" }
+	);
+}
+
+function downloadWorkspace(filename) {
+	const url = window.URL.createObjectURL(exportWorkspace());
+
+	const a = document.createElement("a");
+	a.style.display = "none";
+	a.href = url;
+	a.download = filename;
+	document.body.appendChild(a);
+	a.click();
+	a.remove();
+
+	window.URL.revokeObjectURL(url);
+}
+
+function importWorkspace(file) {
+	var reader = new FileReader();
+
+	reader.addEventListener(
+		"load",
+		() => {
+			var workspace;
+			try {
+				workspace = JSON.parse(reader.result);
+			} catch (e) {
+				alert("That file isn't a valid Pedal Playground workspace.");
+				return;
+			}
+
+			if (workspace.canvas !== undefined) {
+				setBoardFlipped(false);
+				$(".canvas").html(workspace.canvas);
+				// Canvas scale is stored inside the canvas as #multiplier
+				var multiplier = $("#multiplier").val() || 32;
+				$("#canvas-scale").val(multiplier);
+				$(".canvas").css("background-size", multiplier + "px");
+				readyCanvas();
+			}
+
+			if (Array.isArray(workspace.collection)) {
+				setCollection(workspace.collection);
+			}
+
+			if (workspace.signalFlow && window.SignalFlow) {
+				SignalFlow.setState(workspace.signalFlow);
+			}
+
+			if (workspace.settings && workspace.settings.useMm !== undefined) {
+				$("#convert-units").prop("checked", !!workspace.settings.useMm);
+				convertUnits();
+			}
+		},
+		false,
+	);
+
+	reader.readAsText(file);
+}
+
+function uploadWorkspace() {
+	var input = document.createElement("input");
+	input.type = "file";
+	input.accept = ".json,application/json";
+	input.onchange = _ => {
+		if (input.files[0]) importWorkspace(input.files[0]);
+	};
+	input.click();
 }
 
 function convertUnits() {
@@ -717,14 +1343,17 @@ window.GetPedalData = function () {
 					return 0;
 				}
 			});
+			assignKeys(pedals);
 			pedals.forEach(RenderPedals);
 			listPedals(pedals);
+			initCollection(pedals);
 		},
+		error: showDataLoadError,
 	});
 };
 
 window.RenderPedals = function (pedals) {
-	var { Type, Brand, Name, Width, Height, Image } = pedals;
+	var { Type, Brand, Name, Width, Height, Image, Key } = pedals;
 	var option = $("<option>", {
 		text: `${Brand} ${Name}`,
 		// id: `${Name.toLowerCase().replace(/(\s+)|(['"])/g, (m, p1, p2) => p1 ? "-" : "")}`,
@@ -732,6 +1361,7 @@ window.RenderPedals = function (pedals) {
 			width: Width,
 			height: Height,
 			image: Image,
+			key: Key,
 		},
 	});
 	if ($("optgroup").is(`[label="${Brand}"]`)) {
@@ -788,10 +1418,24 @@ window.GetPedalBoardData = function () {
 					return 0;
 				}
 			});
+			assignKeys(pedalboards);
 			RenderPedalBoards(pedalboards);
+			initPedalboardCollection(pedalboards);
 		},
+		error: showDataLoadError,
 	});
 };
+
+// Pedal and pedalboard lists come from JSON files, which browsers won't load
+// when the page is opened straight from disk (file://)
+function showDataLoadError() {
+	if ($(".data-load-error").length) return;
+	var message = location.protocol === "file:"
+		? "The pedal and pedalboard lists can't load when this page is opened as a file. " +
+		  "Run start-local.cmd in the Pedal Playground folder (or any local web server) and open the page from there."
+		: "The pedal and pedalboard lists failed to load. Check that public/data is reachable and reload the page.";
+	$('<div class="data-load-error" role="alert">').text(message).prependTo(".sidebar__scroll");
+}
 
 window.RenderPedalBoards = function (pedalboards) {
 	// console.log('RenderPedalBoards');
@@ -804,6 +1448,7 @@ window.RenderPedalBoards = function (pedalboards) {
 		$pedalboard.data("height", pedalboards[i].Height);
 		$pedalboard.data("height", pedalboards[i].Height);
 		$pedalboard.data("image", pedalboards[i].Image);
+		$pedalboard.data("key", "b:" + pedalboards[i].Key);
 		$pedalboard.appendTo(".pedalboard-list");
 	}
 };
@@ -994,5 +1639,31 @@ $("body").on("click", ".settings-trigger", function (e) {
 $("body").on("click", ".settings-trigger.open", function (e) {
 	$(".settings-popover").addClass("hide");
 	$(".settings-trigger").removeClass("open");
+	e.preventDefault();
+});
+
+// ------------------------------------------------------------------------------------
+// Main views (Playground / Signal Flow / Parts List). Each view element is marked with
+// data-view-panel; views listen for "viewshown" to render themselves.
+
+function showView(view) {
+	// Clear any playground selection so its keyboard shortcuts don't act unseen
+	$(".item-info").remove();
+	$(".canvas .selected, .canvas .group-selected").removeClass("selected group-selected");
+
+	$(".view-tab").each(function () {
+		var active = $(this).data("view") === view;
+		$(this).toggleClass("active", active).attr("aria-selected", active);
+	});
+	$("[data-view-panel]").each(function () {
+		$(this).toggleClass("hide", $(this).data("view-panel") !== view);
+	});
+	// Flipping the board only applies to the layout
+	$(".flip-board").toggleClass("hide", view !== "playground");
+	$(document).trigger("viewshown", [view]);
+}
+
+$("body").on("click", ".view-tab", function (e) {
+	showView($(this).data("view"));
 	e.preventDefault();
 });

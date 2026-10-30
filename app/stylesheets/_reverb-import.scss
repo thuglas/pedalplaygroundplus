@@ -1,0 +1,117 @@
+/* Import from Reverb */
+.collection-hint {
+	font-size: 12px;
+	opacity: 0.6;
+	margin: 4px 0 12px;
+}
+
+#reverb-import-modal .modal-dialog {
+	width: auto;
+	max-width: 980px;
+	margin: 30px auto;
+	padding: 0 16px;
+}
+
+.reverb-import__summary {
+	font-weight: 600;
+}
+
+.reverb-import__help {
+	font-size: 13px;
+	opacity: 0.7;
+}
+
+.reverb-import__table-wrap {
+	max-height: 60vh;
+	overflow: auto;
+	border: 1px solid #d5dae1;
+	border-radius: 6px;
+}
+
+.reverb-import__table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+.reverb-import__table th,
+.reverb-import__table td {
+	padding: 6px 10px;
+	border-bottom: 1px solid #e3e7ec;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.reverb-import__table thead th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: #eef1f5;
+	font-weight: 600;
+}
+
+.reverb-import__table td:first-child,
+.reverb-import__table th:first-child {
+	width: 36px;
+	text-align: center;
+}
+
+.reverb-import__table td:nth-child(3) {
+	width: 40%;
+}
+
+.reverb-import__table td:last-child {
+	width: 110px;
+	white-space: nowrap;
+}
+
+.reverb-import__title {
+	font-weight: 500;
+}
+
+.reverb-import__table small {
+	display: block;
+	opacity: 0.6;
+}
+
+.reverb-import__status {
+	display: inline-block;
+	padding: 1px 8px;
+	border-radius: 10px;
+	font-size: 12px;
+	background: rgba(97, 109, 128, 0.12);
+}
+
+.is-match .reverb-import__status {
+	background: rgba(46, 133, 64, 0.14);
+	color: #2e7a3c;
+}
+
+.is-possible .reverb-import__status {
+	background: rgba(214, 150, 20, 0.16);
+	color: #8a5a00;
+}
+
+.is-collected .reverb-import__status,
+.is-none .reverb-import__status {
+	opacity: 0.8;
+}
+
+@media (prefers-color-scheme: dark) {
+	.reverb-import__table-wrap {
+		border-color: rgba(255, 255, 255, 0.12);
+	}
+	.reverb-import__table th,
+	.reverb-import__table td {
+		border-color: rgba(255, 255, 255, 0.08);
+	}
+	.reverb-import__table thead th {
+		background: #2d2c31;
+	}
+	.is-match .reverb-import__status {
+		color: #7fd18f;
+	}
+	.is-possible .reverb-import__status {
+		color: #f0c060;
+	}
+}

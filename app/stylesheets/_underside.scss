@@ -1,0 +1,126 @@
+/* ------------------------------------------------------------------------------------
+   Underside of the board: pedals mounted under the pedalboard, and the flipped view */
+
+/* Three buttons on a pedal: underside, rotate, delete */
+.item.pedal .actions {
+	width: 100px;
+	margin-left: -48px;
+}
+
+.item .actions a.flip {
+	border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.item .actions a.flip:before {
+	content: "\e150";
+	font-weight: bold;
+}
+
+/* Top view: pedals underneath sit behind the board (seen through its gaps) and can't be touched */
+.canvas .pedal.is-underside {
+	z-index: 0;
+	opacity: 0.45;
+	pointer-events: none;
+	filter: grayscale(1);
+}
+
+/* Flipped over: the underside pedals can be moved; everything on top is faded and fixed */
+.canvas.is-flipped {
+	background-color: #e4e7ec;
+}
+
+.canvas.is-flipped .pedalboard {
+	opacity: 0.45;
+	filter: grayscale(1);
+	pointer-events: none;
+}
+
+.canvas.is-flipped .pedal {
+	opacity: 0.12;
+	filter: grayscale(1);
+	pointer-events: none;
+}
+
+.canvas.is-flipped .pedal.is-underside {
+	z-index: 2;
+	opacity: 1;
+	filter: none;
+	pointer-events: auto;
+}
+
+/* Flipped over: the pedals on top are mirrored too, like the layout; the ones underneath
+   now face you, so they stay as they are. The scale property applies on top of a
+   pedal's rotation, so a rotated pedal mirrors left/right on screen. Custom pedals flip
+   as a whole; their name and buttons are flipped back to stay readable */
+.canvas.is-flipped .pedal:not(.is-underside) .artwork,
+.canvas.is-flipped .pedal--custom:not(.is-underside),
+.canvas.is-flipped .pedal--custom:not(.is-underside) .pedal__name,
+.canvas.is-flipped .pedal--custom:not(.is-underside) .actions {
+	scale: -1 1;
+}
+
+.canvas.is-flipped:before {
+	content: "Underside of the board: only pedals mounted underneath can be moved";
+	position: absolute;
+	top: 12px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 3;
+	padding: 4px 12px;
+	border-radius: 100px;
+	background: #2f2f31;
+	color: white;
+	font-size: 12px;
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+/* Header button */
+.site-header nav a.flip-board {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-right: 8px;
+	padding: 6px 12px;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	border-radius: 6px;
+	color: #2f2f31;
+	text-decoration: none;
+	vertical-align: middle;
+}
+
+.site-header nav a.flip-board:hover,
+.site-header nav a.flip-board:focus {
+	background: #eeeeee;
+}
+
+.site-header nav a.flip-board.active {
+	background: #5c62fc;
+	border-color: #5c62fc;
+	color: white;
+}
+
+.site-header nav a.flip-board.hide {
+	display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+	.canvas.is-flipped {
+		background-color: #141316;
+	}
+
+	.site-header nav a.flip-board {
+		border-color: rgba(255, 255, 255, 0.2);
+		color: #c9c6d0;
+	}
+
+	.site-header nav a.flip-board:hover,
+	.site-header nav a.flip-board:focus {
+		background: #2e2d32;
+	}
+
+	.site-header nav a.flip-board.active {
+		background: #5c62fc;
+		color: white;
+	}
+}

@@ -5976,6 +5976,123 @@
 				{"id": "out", "label": "Out", "type": "audio", "direction": "out", "connector": "TS"},
 				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 35}
 			]
+		},
+		{
+			"key": "voodoolab-4x4.png",
+			"brand": "Voodoo Lab",
+			"name": "Pedal Power 4x4",
+			"subcategory": "Power Supply",
+			"verified": false,
+			"notes": "8 isolated outputs: four 9V 100 mA and four high-current 400 mA, two of which switch 9/12V. Which two switch is not confirmed (modeled as 5-6) - check the labels on the unit. Two outputs can be joined with Voodoo Lab cables for 18V or 800 mA. Mains powered.",
+			"sources": ["https://www.notreble.com/buzz/2012/10/20/voodoo-lab-releases-pedal-power-4x4-power-supply/", "https://richtonemusic.co.uk/Voodoo-Lab-Pedal-Power-4x4", "https://www.effectsdatabase.com/model/voodoolab/pedalpower/4x4"],
+			"ports": [
+				{"id": "pwr1", "label": "Out 1", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": []},
+				{"id": "pwr2", "label": "Out 2", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": []},
+				{"id": "pwr3", "label": "Out 3", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": []},
+				{"id": "pwr4", "label": "Out 4", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": []},
+				{"id": "pwr5", "label": "Out 5", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 400, "voltageOptions": [9, 12]},
+				{"id": "pwr6", "label": "Out 6", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 400, "voltageOptions": [9, 12]},
+				{"id": "pwr7", "label": "Out 7", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 400, "voltageOptions": []},
+				{"id": "pwr8", "label": "Out 8", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 400, "voltageOptions": []}
+			]
+		},
+		{
+			"key": "voodoolab-iso5.png",
+			"brand": "Voodoo Lab",
+			"name": "Pedal Power ISO 5",
+			"subcategory": "Power Supply",
+			"verified": false,
+			"notes": "5 isolated outputs: three 9V 100 mA, one 9/12V 400 mA, one 18V 100 mA. Listings disagree on the 18V output (100 vs 150 mA) and an early review gives the high-current output as 300 mA. Mains powered.",
+			"sources": ["https://richtonemusic.co.uk/Voodoo-Lab-Pedal-Power-ISO-5", "https://thomannmusic.com/voodoo_lab_iso5_pedal_power.htm", "https://www.premierguitar.com/articles/Voodoo_Lab_Pedal_Power_ISO_5_Review"],
+			"ports": [
+				{"id": "pwr1", "label": "Out 1", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": []},
+				{"id": "pwr2", "label": "Out 2", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": []},
+				{"id": "pwr3", "label": "Out 3", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": []},
+				{"id": "pwr4", "label": "Out 4", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 400, "voltageOptions": [9, 12]},
+				{"id": "pwr5", "label": "Out 5", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 18, "current": 100, "voltageOptions": []}
+			]
+		},
+		{
+			"key": "voodoolab-mondo.png",
+			"brand": "Voodoo Lab",
+			"name": "Pedal Power Mondo",
+			"subcategory": "Power Supply",
+			"verified": false,
+			"notes": "12 isolated outputs (a Pedal Power 2 Plus plus a Pedal Power Digital in one box): four 9/12V 100 mA, two 9V 250 mA, two 9V 100 mA with sag control (regulated or unregulated), two 9V 400 mA, two 9/12V 400 mA. Listings disagree on the high-current split - check the labels on the unit. Two outputs can be joined for 18V/24V or 800 mA. Mains powered.",
+			"sources": ["https://zedem.ca/products/voodoo-lab-pedal-power-mondo-isolated-power-supply", "https://richtonemusic.co.uk/Voodoo-Lab-Pedal-Power-Mondo", "https://thomann.dk/voodoo_lab_pedal_power_mondo.htm"],
+			"ports": [
+				{"id": "pwr1", "label": "Out 1", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": [9, 12]},
+				{"id": "pwr2", "label": "Out 2", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": [9, 12]},
+				{"id": "pwr3", "label": "Out 3", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": [9, 12]},
+				{"id": "pwr4", "label": "Out 4", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": [9, 12]},
+				{"id": "pwr5", "label": "Out 5", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 250, "voltageOptions": []},
+				{"id": "pwr6", "label": "Out 6", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 250, "voltageOptions": []},
+				{"id": "pwr7", "label": "Out 7 (Sag)", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": []},
+				{"id": "pwr8", "label": "Out 8 (Sag)", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 100, "voltageOptions": []},
+				{"id": "pwr9", "label": "Out 9", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 400, "voltageOptions": []},
+				{"id": "pwr10", "label": "Out 10", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 400, "voltageOptions": []},
+				{"id": "pwr11", "label": "Out 11", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 400, "voltageOptions": [9, 12]},
+				{"id": "pwr12", "label": "Out 12", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 400, "voltageOptions": [9, 12]}
+			]
+		},
+		{
+			"key": "voodoolab-x4.png",
+			"brand": "Voodoo Lab",
+			"name": "Pedal Power X4",
+			"subcategory": "Power Supply",
+			"verified": false,
+			"notes": "4 isolated 9V 500 mA outputs, 1000 mA total on the included adapter. Can instead run as an expander from a Pedal Power 3 Plus X-LINK port (or any 12V 400 mA output); the outputs then share 400 mA in total. Modeled as a stand-alone supply.",
+			"sources": ["https://www.perfectcircuit.com/voodoo-lab-pedal-power-x4.html", "https://mixdownmag.com.au/reviews/hardware/reviewed-voodoo-lab-pedal-power-x4-isolated-power-supply-and-x4-expander/", "https://www.zzounds.com/item--VOOPPX4EK"],
+			"ports": [
+				{"id": "pwr1", "label": "Out 1", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr2", "label": "Out 2", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr3", "label": "Out 3", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr4", "label": "Out 4", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []}
+			]
+		},
+		{
+			"key": "voodoolab-x8.png",
+			"brand": "Voodoo Lab",
+			"name": "Pedal Power X8",
+			"subcategory": "Power Supply",
+			"verified": false,
+			"notes": "8 isolated 9V 500 mA outputs. Runs from its included adapter or from a Pedal Power 3 Plus X-LINK port (or any 12V 400 mA+ output); total current is then limited by the source. Not confirmed whether any outputs switch to 12V. Modeled as a stand-alone supply.",
+			"sources": ["https://www.chicagomusicexchange.com/en-gb/products/voodoo-lab-pedal-power-x8-high-current-8-output-isolated-1000192", "https://mixdownmag.com.au/?p=64262", "https://www.andertons.co.uk/voodoo-lab-pedal-power-x8"],
+			"ports": [
+				{"id": "pwr1", "label": "Out 1", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr2", "label": "Out 2", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr3", "label": "Out 3", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr4", "label": "Out 4", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr5", "label": "Out 5", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr6", "label": "Out 6", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr7", "label": "Out 7", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []},
+				{"id": "pwr8", "label": "Out 8", "type": "power", "direction": "out", "connector": "2.1mm barrel, center negative", "voltage": 9, "current": 500, "voltageOptions": []}
+			]
+		},
+		{
+			"key": "eventide-h90-black.png",
+			"brand": "Eventide",
+			"name": "H90 Harmonizer (Black)",
+			"subcategory": "Effect",
+			"verified": false,
+			"notes": "Eventide spec: 12V DC 600 mA (or 9V DC 800 mA), center POSITIVE 5.5/2.5mm jack; supplied 12V 1A adapter. Four TS inputs and outputs, each instrument or line level. EXP/CTL jacks take expression pedals, 0-5V CV or aux switches.",
+			"sources": ["https://cdn.eventideaudio.com/manuals/h90/1.9.7/content/hardware/rear-side.html", "https://cdn.eventideaudio.com/manuals/h90/1.3.0/content/appendix/specifications.html"],
+			"ports": [
+				{"id": "in1", "label": "Input 1", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "in2", "label": "Input 2", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "in3", "label": "Input 3", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "in4", "label": "Input 4", "type": "audio", "direction": "in", "connector": "TS"},
+				{"id": "out1", "label": "Output 1", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "out2", "label": "Output 2", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "out3", "label": "Output 3", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "out4", "label": "Output 4", "type": "audio", "direction": "out", "connector": "TS"},
+				{"id": "exp1", "label": "EXP/CTL 1", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "exp2", "label": "EXP/CTL 2", "type": "ctrl", "direction": "in", "connector": "TRS"},
+				{"id": "midiin", "label": "MIDI In", "type": "midi", "direction": "in", "connector": "5-pin DIN"},
+				{"id": "midiout", "label": "MIDI Out/Thru", "type": "midi", "direction": "out", "connector": "5-pin DIN"},
+				{"id": "usb", "label": "USB-C", "type": "midi", "direction": "both", "connector": "USB-C"},
+				{"id": "power", "label": "Power", "type": "power", "direction": "in", "connector": "5.5x2.5mm barrel, center positive", "voltage": 9, "current": 800}
+			]
 		}
 	]
 }

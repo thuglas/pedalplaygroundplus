@@ -113,6 +113,10 @@ Write-Host "Uploading (the first time is about 3 GB of pedal images, so it takes
 Aws @sync
 # The page itself is always checked for changes (scripts and styles are versioned with ?v=N)
 Aws s3 cp index.html "s3://$bucket/index.html" --cache-control "no-cache" --content-type "text/html; charset=utf-8" --only-show-errors
+# So is the device data, which is fetched without a version
+foreach ($data in "pedals.json", "my-devices.json") {
+	Aws s3 cp "public/data/$data" "s3://$bucket/public/data/$data" --cache-control "no-cache" --content-type "application/json; charset=utf-8" --only-show-errors
+}
 
 # 4. Clear CloudFront's cache after an update
 if (-not $created) {
